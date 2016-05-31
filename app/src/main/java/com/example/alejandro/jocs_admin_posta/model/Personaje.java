@@ -4,10 +4,15 @@ package com.example.alejandro.jocs_admin_posta.model;
  * Created by Alejandro on 31/5/2016.
  */
 public class Personaje {
-    int id;
+    long id;
     String nombre;
     String raza;
     String nivel;
+    int juego_id;
+
+    public Personaje() {
+
+    }
 
     public Personaje(String nombre, String raza, String nivel) {
         this.nombre = nombre;
@@ -15,11 +20,19 @@ public class Personaje {
         this.nivel = nivel;
     }
 
-    public int getId() {
+    public int getJuego_id() {
+        return juego_id;
+    }
+
+    public void setJuego_id(long juego_id) {
+        this.juego_id = juego_id;
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

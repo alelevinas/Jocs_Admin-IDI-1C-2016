@@ -127,15 +127,15 @@ public class MainActivity extends AppCompatActivity
 
         List<Juego> result = new ArrayList<>();
         for (int i=1; i <= size; i++) {
-            Juego ci = new Juego();
-            ci.setNombre(Juego.NAME_PREFIX + i);
-            ci.setPlataforma(Juego.SURNAME_PREFIX + i);
-            ci.setEstudio(Juego.EMAIL_PREFIX + i);
-            ci.setAno_publicacion("2016");
-            ci.setCurso("En curso");
-            ci.setFotoId(R.drawable.gta_v);
+            Juego juego = new Juego();
+            juego.setNombre(Juego.NAME_PREFIX + i);
+            juego.setPlataforma(Juego.SURNAME_PREFIX + i);
+            juego.setEstudio(Juego.EMAIL_PREFIX + i);
+            juego.setAno_publicacion("2016");
+            juego.setCurso("En curso");
+            juego.setFotoId(R.drawable.gta_v);
 
-            result.add(ci);
+            result.add(juego);
 
         }
 
