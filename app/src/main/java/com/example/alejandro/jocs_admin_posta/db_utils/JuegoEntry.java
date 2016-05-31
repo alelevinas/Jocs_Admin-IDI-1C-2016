@@ -18,7 +18,7 @@ public class JuegoEntry implements BaseColumns {
     //        table create statement
     public static final String CREATE_TABLE_JUEGOS = "CREATE TABLE "
             + TABLE_NAME + "(" + COLUMN_KEY_JUEGO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-            COLUMN_NOMBRE + " TEXT," +
+            COLUMN_NOMBRE + " TEXT UNIQUE," +
             COLUMN_PLATAFORMA + " TEXT," +
             COLUMN_ESTUDIO + " TEXT," +
             COLUMN_ANO_PUBLICACION + " TEXT," +

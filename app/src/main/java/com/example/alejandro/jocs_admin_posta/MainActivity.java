@@ -66,8 +66,6 @@ public class MainActivity extends AppCompatActivity
 
         DatabaseManager.initializeInstance(new JocsAdminDbHelper(this.getApplicationContext()));
 
-        DatabaseManager.getInstance().populateDb();
-
         List<Juego> juegos = DatabaseManager.getInstance().getAllJuegos();
         JuegoAdapter ca = new JuegoAdapter(juegos);
         recList.setAdapter(ca);

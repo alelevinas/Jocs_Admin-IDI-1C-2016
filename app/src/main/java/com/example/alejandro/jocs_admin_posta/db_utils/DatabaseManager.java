@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.alejandro.jocs_admin_posta.R;
 import com.example.alejandro.jocs_admin_posta.model.Juego;
 import com.example.alejandro.jocs_admin_posta.model.Personaje;
 
@@ -37,6 +36,15 @@ public class DatabaseManager {
         }
 
         return instance;
+    }
+    // ------------------------ "juegos" table methods ----------------//
+
+    public void restart() {
+        SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + JuegoEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + PersonajeEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + MisionEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ObjetoEntry.TABLE_NAME);
     }
 
     // ------------------------ "juegos" table methods ----------------//
@@ -172,32 +180,5 @@ public class DatabaseManager {
         return personajes;
     }
 
-    public void populateDb() {
-        List<Long> ids = this.agregarJuegos(15);
-        agregarPersonajes(5, ids);
-    }
 
-    private List<Long> agregarJuegos(int size) {
-        List<Long> l = new ArrayList<>(size);
-        for (int i = 1; i <= size; i++) {
-            Juego juego = new Juego();
-            juego.setNombre("JUEGO_" + i);
-            juego.setPlataforma("PLATAFORMA_" + i);
-            juego.setEstudio("ESTUDIO_" + i);
-            juego.setAno_publicacion("2016");
-            juego.setCurso("En curso");
-            juego.setFotoId(R.drawable.gta_v);
-
-            l.add(this.agregarJuego(juego));
-        }
-        return l;
-    }
-
-    private void agregarPersonajes(int size, List<Long> juegos_ids) {
-        for (long id : juegos_ids) {
-            for (int i = 1; i <= size; i++) {
-                this.agregarPersonaje(new Personaje("PERSONAJE_" + id + "-" + i, "RAZA_" + id + "-" + i, "NIVEL_" + id + "-" + i), id);
-            }
-        }
-    }
 }

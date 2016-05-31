@@ -1,5 +1,6 @@
 package com.example.alejandro.jocs_admin_posta;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,6 +76,12 @@ public class JuegoAdapter extends RecyclerView.Adapter<JuegoAdapter.JuegoViewHol
                 public void onClick(View v) {
                     //startActivity tabs juego (currentJuego) bla bla
                     Toast.makeText(v.getContext(), currentJuego.getNombre(), Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(v.getContext(), JuegoInfoActivity.class);
+//                    EditText editText = (EditText) findViewById(R.id.edit_message);
+//                    String message = editText.getText().toString();
+//                    intent.putExtra(EXTRA_MESSAGE, message);
+                    v.getContext().startActivity(intent);
                 }
             });
         }
