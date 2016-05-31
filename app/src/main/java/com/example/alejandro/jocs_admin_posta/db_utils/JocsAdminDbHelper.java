@@ -34,4 +34,8 @@ public class JocsAdminDbHelper extends SQLiteOpenHelper {
         // create new tables
         onCreate(db);
     }
+
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        onUpgrade(db, oldVersion, newVersion);
+    }
 }

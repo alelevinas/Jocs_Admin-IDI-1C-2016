@@ -7,15 +7,39 @@ public class Juego {
     public static final String NAME_PREFIX = "JUEGO_";
     public static final String SURNAME_PREFIX = "ESTUDIO_";
     public static final String EMAIL_PREFIX = "PLATAFORMA_";
+
+
     //    List<Personaje> personajes;    ALGO CON LA BASE DE DATOS
 //    Objeto objetos;
 //    Mision missiones;
-    protected int fotoId;
-    protected String ano_publicacion;
-    protected String curso;
+    long id;
     String nombre;
     String plataforma;
     String estudio;
+    int fotoId;
+    String ano_publicacion;
+    String curso;
+
+
+    public Juego(String ano_publicacion, String curso, String nombre, String plataforma, String estudio) {
+        this.nombre = nombre;
+        this.plataforma = plataforma;
+        this.estudio = estudio;
+        this.ano_publicacion = ano_publicacion;
+        this.curso = curso;
+    }
+
+    public Juego() {
+
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getNombre() {
         return nombre;
