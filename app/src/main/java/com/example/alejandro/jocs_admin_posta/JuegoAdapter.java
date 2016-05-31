@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.alejandro.jocs_admin_posta.model.Juego;
+
 import java.util.List;
 
 public class JuegoAdapter extends RecyclerView.Adapter<JuegoAdapter.JuegoViewHolder> {
@@ -36,12 +38,12 @@ public class JuegoAdapter extends RecyclerView.Adapter<JuegoAdapter.JuegoViewHol
     @Override
     public void onBindViewHolder(JuegoViewHolder juegoViewHolder, int i) {
         Juego ci = juegos.get(i);
-        juegoViewHolder.vNombre.setText(ci.nombre);
-        juegoViewHolder.vPlataforma.setText(ci.plataforma);
-        juegoViewHolder.vEstudio.setText(ci.estudio);
-        juegoViewHolder.vAno_publicacion.setText(ci.ano_publicacion);
-        juegoViewHolder.vCurso.setText(ci.curso);
-        juegoViewHolder.vFotoId.setImageResource(ci.fotoId);
+        juegoViewHolder.vNombre.setText(ci.getNombre());
+        juegoViewHolder.vPlataforma.setText(ci.getPlataforma());
+        juegoViewHolder.vEstudio.setText(ci.getEstudio());
+        juegoViewHolder.vAno_publicacion.setText(ci.getAno_publicacion());
+        juegoViewHolder.vCurso.setText(ci.getCurso());
+        juegoViewHolder.vFotoId.setImageResource(ci.getFotoId());
 
         juegoViewHolder.currentJuego = ci;
     }
@@ -72,7 +74,7 @@ public class JuegoAdapter extends RecyclerView.Adapter<JuegoAdapter.JuegoViewHol
                 @Override
                 public void onClick(View v) {
                     //startActivity tabs juego (currentJuego) bla bla
-                    Toast.makeText(v.getContext(), currentJuego.nombre, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(), currentJuego.getNombre(), Toast.LENGTH_SHORT).show();
                 }
             });
         }

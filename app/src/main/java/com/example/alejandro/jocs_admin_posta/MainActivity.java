@@ -15,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.alejandro.jocs_admin_posta.model.Juego;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,12 +128,12 @@ public class MainActivity extends AppCompatActivity
         List<Juego> result = new ArrayList<>();
         for (int i=1; i <= size; i++) {
             Juego ci = new Juego();
-            ci.nombre = Juego.NAME_PREFIX + i;
-            ci.plataforma = Juego.SURNAME_PREFIX + i;
-            ci.estudio = Juego.EMAIL_PREFIX + i;
-            ci.ano_publicacion = "2016";
-            ci.curso = "En curso";
-            ci.fotoId = R.drawable.gta_v;
+            ci.setNombre(Juego.NAME_PREFIX + i);
+            ci.setPlataforma(Juego.SURNAME_PREFIX + i);
+            ci.setEstudio(Juego.EMAIL_PREFIX + i);
+            ci.setAno_publicacion("2016");
+            ci.setCurso("En curso");
+            ci.setFotoId(R.drawable.gta_v);
 
             result.add(ci);
 
