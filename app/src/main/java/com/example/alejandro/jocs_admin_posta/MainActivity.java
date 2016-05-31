@@ -15,9 +15,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.alejandro.jocs_admin_posta.db_utils.DatabaseManager;
+import com.example.alejandro.jocs_admin_posta.db_utils.JocsAdminDbHelper;
 import com.example.alejandro.jocs_admin_posta.model.Juego;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
@@ -62,7 +63,13 @@ public class MainActivity extends AppCompatActivity
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
 
-        JuegoAdapter ca = new JuegoAdapter(createList(30));
+
+        DatabaseManager.initializeInstance(new JocsAdminDbHelper(this.getApplicationContext()));
+
+        DatabaseManager.getInstance().populateDb();
+
+        List<Juego> juegos = DatabaseManager.getInstance().getAllJuegos();
+        JuegoAdapter ca = new JuegoAdapter(juegos);
         recList.setAdapter(ca);
     }
 
@@ -123,22 +130,5 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private List<Juego> createList(int size) {
 
-        List<Juego> result = new ArrayList<>();
-        for (int i=1; i <= size; i++) {
-            Juego juego = new Juego();
-            juego.setNombre(Juego.NAME_PREFIX + i);
-            juego.setPlataforma(Juego.SURNAME_PREFIX + i);
-            juego.setEstudio(Juego.EMAIL_PREFIX + i);
-            juego.setAno_publicacion("2016");
-            juego.setCurso("En curso");
-            juego.setFotoId(R.drawable.gta_v);
-
-            result.add(juego);
-
-        }
-
-        return result;
-    }
 }

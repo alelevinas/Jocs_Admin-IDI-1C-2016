@@ -4,11 +4,6 @@ package com.example.alejandro.jocs_admin_posta.model;
  * Created by Alejandro on 31/5/2016.
  */
 public class Juego {
-    public static final String NAME_PREFIX = "JUEGO_";
-    public static final String SURNAME_PREFIX = "ESTUDIO_";
-    public static final String EMAIL_PREFIX = "PLATAFORMA_";
-
-
     //    List<Personaje> personajes;    ALGO CON LA BASE DE DATOS
 //    Objeto objetos;
 //    Mision missiones;

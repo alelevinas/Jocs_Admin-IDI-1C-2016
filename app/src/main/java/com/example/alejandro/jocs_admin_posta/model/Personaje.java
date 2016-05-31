@@ -8,7 +8,7 @@ public class Personaje {
     String nombre;
     String raza;
     String nivel;
-    int juego_id;
+    long juego_id;
 
     public Personaje() {
 
@@ -20,7 +20,7 @@ public class Personaje {
         this.nivel = nivel;
     }
 
-    public int getJuego_id() {
+    public long getJuego_id() {
         return juego_id;
     }
 

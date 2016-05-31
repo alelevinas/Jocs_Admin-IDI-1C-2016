@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.alejandro.jocs_admin_posta.R;
 import com.example.alejandro.jocs_admin_posta.model.Juego;
 import com.example.alejandro.jocs_admin_posta.model.Personaje;
 
@@ -122,7 +123,7 @@ public class DatabaseManager {
 
     // ------------------------ "Personajes" table methods ----------------//
 
-    public long agregarPersonaje(Personaje personaje) {
+    public long agregarPersonaje(Personaje personaje, long juego_id) {
         SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -130,7 +131,8 @@ public class DatabaseManager {
         values.put(PersonajeEntry.COLUMN_NIVEL, personaje.getNivel());
         values.put(PersonajeEntry.COLUMN_RAZA, personaje.getRaza());
 
-        values.put(PersonajeEntry.COLUMN_KEY_PERSONAJE_ID, personaje.getJuego_id());
+//        values.put(PersonajeEntry.COLUMN_KEY_JUEGO_ID, personaje.getJuego_id());
+        values.put(PersonajeEntry.COLUMN_KEY_JUEGO_ID, juego_id);
 
         // Insert the new row, returning the primary key value of the new row
         long personaje_id = db.insert(PersonajeEntry.TABLE_NAME, null, values);
@@ -168,5 +170,34 @@ public class DatabaseManager {
             } while (c.moveToNext());
         }
         return personajes;
+    }
+
+    public void populateDb() {
+        List<Long> ids = this.agregarJuegos(15);
+        agregarPersonajes(5, ids);
+    }
+
+    private List<Long> agregarJuegos(int size) {
+        List<Long> l = new ArrayList<>(size);
+        for (int i = 1; i <= size; i++) {
+            Juego juego = new Juego();
+            juego.setNombre("JUEGO_" + i);
+            juego.setPlataforma("PLATAFORMA_" + i);
+            juego.setEstudio("ESTUDIO_" + i);
+            juego.setAno_publicacion("2016");
+            juego.setCurso("En curso");
+            juego.setFotoId(R.drawable.gta_v);
+
+            l.add(this.agregarJuego(juego));
+        }
+        return l;
+    }
+
+    private void agregarPersonajes(int size, List<Long> juegos_ids) {
+        for (long id : juegos_ids) {
+            for (int i = 1; i <= size; i++) {
+                this.agregarPersonaje(new Personaje("PERSONAJE_" + id + "-" + i, "RAZA_" + id + "-" + i, "NIVEL_" + id + "-" + i), id);
+            }
+        }
     }
 }
