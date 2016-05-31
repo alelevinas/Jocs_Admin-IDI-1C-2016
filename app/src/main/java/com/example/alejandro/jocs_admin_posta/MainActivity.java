@@ -3,6 +3,8 @@ package com.example.alejandro.jocs_admin_posta;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,6 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,6 +45,16 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        RecyclerView recList = (RecyclerView) findViewById(R.id.juegos_cards);
+//        recList.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recList.setLayoutManager(llm);
+
+        JuegoAdapter ca = new JuegoAdapter(createList(30));
+        recList.setAdapter(ca);
     }
 
     @Override
@@ -97,5 +112,22 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private List<Juego> createList(int size) {
+
+        List<Juego> result = new ArrayList<Juego>();
+        for (int i=1; i <= size; i++) {
+            Juego ci = new Juego();
+            ci.name = Juego.NAME_PREFIX + i;
+            ci.surname = Juego.SURNAME_PREFIX + i;
+            ci.email = Juego.EMAIL_PREFIX + i + "@test.com";
+            ci.photoId = R.drawable.gta_v;
+
+            result.add(ci);
+
+        }
+
+        return result;
     }
 }
