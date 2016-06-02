@@ -47,6 +47,7 @@ public class JuegoInfoActivity extends AppCompatActivity {
         j = (Juego) s;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(j.getNombre());
         setSupportActionBar(toolbar);
 
 
@@ -117,7 +118,7 @@ public class JuegoInfoActivity extends AppCompatActivity {
                     return JuegoPersonajesFragment.newInstance(j);
                 case 2:
                     //return JuegoObjetos
-                    return JuegoInfoFragment.newInstance(j);
+                    return JuegoObjetosFragment.newInstance(j);
                 case 3:
                     //return JuegoMisiones
                     return JuegoInfoFragment.newInstance(j);

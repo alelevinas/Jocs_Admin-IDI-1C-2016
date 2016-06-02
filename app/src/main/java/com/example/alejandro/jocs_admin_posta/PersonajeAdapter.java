@@ -52,7 +52,7 @@ public class PersonajeAdapter extends RecyclerView.Adapter<PersonajeAdapter.Pers
 
     public static class PersonajeViewHolder extends RecyclerView.ViewHolder {
 
-        public static final String EXTRA_JUEGO = "personaje";
+        public static final String EXTRA_PERSONAJE = "personaje";
 
         protected Personaje currentPersonaje;
 
@@ -80,7 +80,7 @@ public class PersonajeAdapter extends RecyclerView.Adapter<PersonajeAdapter.Pers
                     /*
                     Intent intent = new Intent(v.getContext(), PersonajeInfoActivity.class);
                     Bundle b = new Bundle();
-                    b.putSerializable(EXTRA_JUEGO, currentPersonaje);
+                    b.putSerializable(EXTRA_PERSONAJE, currentPersonaje);
                     intent.putExtras(b);
                     v.getContext().startActivity(intent);
                     */

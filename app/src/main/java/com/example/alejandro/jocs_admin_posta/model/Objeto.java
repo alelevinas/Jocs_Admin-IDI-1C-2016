@@ -5,20 +5,25 @@ package com.example.alejandro.jocs_admin_posta.model;
  */
 public class Objeto {
 
-    int id;
+    long id;
     String nombre;
     String nivel;
+    private long juego_id;
 
     public Objeto(String nombre, String nivel) {
         this.nombre = nombre;
         this.nivel = nivel;
     }
 
-    public int getId() {
+    public Objeto() {
+
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -36,5 +41,9 @@ public class Objeto {
 
     public void setNivel(String nivel) {
         this.nivel = nivel;
+    }
+
+    public void setJuego_id(long juego_id) {
+        this.juego_id = juego_id;
     }
 }

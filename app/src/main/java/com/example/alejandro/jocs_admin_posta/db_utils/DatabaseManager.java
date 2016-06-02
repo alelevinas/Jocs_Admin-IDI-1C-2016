@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.example.alejandro.jocs_admin_posta.R;
 import com.example.alejandro.jocs_admin_posta.model.Juego;
+import com.example.alejandro.jocs_admin_posta.model.Objeto;
 import com.example.alejandro.jocs_admin_posta.model.Personaje;
 
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ public class DatabaseManager {
         db.execSQL("DROP TABLE IF EXISTS " + PersonajeEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + MisionEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + ObjetoEntry.TABLE_NAME);
+        mDatabaseHelper.onCreate(db);
     }
 
     // ------------------------ "juegos" table methods ----------------//
@@ -161,9 +163,8 @@ public class DatabaseManager {
     /**
      * getting all personajes
      */
-    public List<Personaje> getAllPersonajes() {
+    public List<Personaje> getAllPersonajes(String selectQuery) {
         List<Personaje> personajes = new ArrayList<Personaje>();
-        String selectQuery = "SELECT  * FROM " + PersonajeEntry.TABLE_NAME;
 
         Log.e(LOG, selectQuery);
 
@@ -189,11 +190,75 @@ public class DatabaseManager {
         return personajes;
     }
 
+    public List<Personaje> getAllPersonajesFromJuego(long id) {
+        return this.getAllPersonajes("SELECT * FROM " + PersonajeEntry.TABLE_NAME +
+                " WHERE " + PersonajeEntry.COLUMN_KEY_JUEGO_ID + " = " + id +
+                " ORDER BY " + PersonajeEntry.COLUMN_NIVEL);
+    }
+
+// ------------------------ "Objetos" table methods ----------------//
+
+    public long agregarObjeto(Objeto objeto, long juego_id) {
+        SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+        return agregarObjeto(db, objeto, juego_id);
+    }
+
+    public long agregarObjeto(SQLiteDatabase db, Objeto objeto, long juego_id) {
+        ContentValues values = new ContentValues();
+        values.put(ObjetoEntry.COLUMN_NOMBRE, objeto.getNombre());
+        values.put(ObjetoEntry.COLUMN_NIVEL, objeto.getNivel());
+
+//        values.put(ObjetoEntry.COLUMN_KEY_JUEGO_ID, objeto.getJuego_id());
+        values.put(ObjetoEntry.COLUMN_KEY_JUEGO_ID, juego_id);
+
+        // Insert the new row, returning the primary key value of the new row
+        long objeto_id = db.insert(ObjetoEntry.TABLE_NAME, null, values);
+
+        objeto.setId(objeto_id);
+
+        return objeto_id;
+    }
+
+
+    /**
+     * getting all objetos
+     */
+    public List<Objeto> getAllObjetos(String selectQuery) {
+        List<Objeto> objetos = new ArrayList<Objeto>();
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+
+        if (c.moveToFirst()) {
+            do {
+                Objeto objeto = new Objeto();
+                objeto.setId(c.getLong(c.getColumnIndex(ObjetoEntry.COLUMN_KEY_OBJETO_ID)));
+                objeto.setNombre(c.getString(c.getColumnIndex(ObjetoEntry.COLUMN_NOMBRE)));
+                objeto.setNivel(c.getString(c.getColumnIndex(ObjetoEntry.COLUMN_NIVEL)));
+                objeto.setJuego_id(c.getLong(c.getColumnIndex(ObjetoEntry.COLUMN_KEY_JUEGO_ID)));
+
+                // adding to objeto list
+                objetos.add(objeto);
+            } while (c.moveToNext());
+        }
+        return objetos;
+    }
+
+    public List<Objeto> getAllObjetosFromJuego(long id) {
+        return this.getAllObjetos("SELECT  * FROM " + ObjetoEntry.TABLE_NAME +
+                " WHERE " + ObjetoEntry.COLUMN_KEY_JUEGO_ID + " = " + id +
+                " ORDER BY " + ObjetoEntry.COLUMN_NIVEL);
+    }
 
     //    ------------------------------- PA POPULAR --------------------------
     public void populateDb(SQLiteDatabase db) {
         List<Long> ids = this.agregarJuegos(db, 15);
         agregarPersonajes(db, 5, ids);
+        agregarObjetos(db, 5, ids);
     }
 
     private List<Long> agregarJuegos(SQLiteDatabase db, int size) {
@@ -219,5 +284,15 @@ public class DatabaseManager {
             }
         }
     }
+
+    private void agregarObjetos(SQLiteDatabase db, int size, List<Long> juegos_ids) {
+        for (long id : juegos_ids) {
+            for (int i = 1; i <= size; i++) {
+                this.agregarObjeto(db, new Objeto("OBJETO_" + id + "-" + i, "NIVEL_" + id + "-" + i), id);
+            }
+        }
+    }
+
+
 
 }
