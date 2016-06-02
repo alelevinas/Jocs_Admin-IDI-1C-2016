@@ -98,4 +98,5 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="imagen_del_juego">Imagen del juego</string>
+    <string name="imagen_del_personaje">Imagen del personaje</string>
 </resources>
