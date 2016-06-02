@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.alejandro.jocs_admin_posta.R;
 import com.example.alejandro.jocs_admin_posta.model.Juego;
 import com.example.alejandro.jocs_admin_posta.model.Personaje;
 
@@ -51,7 +52,10 @@ public class DatabaseManager {
 
     public long agregarJuego(Juego juego) {
         SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+        return agregarJuego(db, juego);
+    }
 
+    public long agregarJuego(SQLiteDatabase db, Juego juego) {
         ContentValues values = new ContentValues();
         values.put(JuegoEntry.COLUMN_NOMBRE, juego.getNombre());
         values.put(JuegoEntry.COLUMN_PLATAFORMA, juego.getPlataforma());
@@ -133,7 +137,10 @@ public class DatabaseManager {
 
     public long agregarPersonaje(Personaje personaje, long juego_id) {
         SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+        return agregarPersonaje(db, personaje, juego_id);
+    }
 
+    public long agregarPersonaje(SQLiteDatabase db, Personaje personaje, long juego_id) {
         ContentValues values = new ContentValues();
         values.put(PersonajeEntry.COLUMN_NOMBRE, personaje.getNombre());
         values.put(PersonajeEntry.COLUMN_NIVEL, personaje.getNivel());
@@ -164,6 +171,8 @@ public class DatabaseManager {
         Cursor c = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
+
+
         if (c.moveToFirst()) {
             do {
                 Personaje personaje = new Personaje();
@@ -180,5 +189,35 @@ public class DatabaseManager {
         return personajes;
     }
 
+
+    //    ------------------------------- PA POPULAR --------------------------
+    public void populateDb(SQLiteDatabase db) {
+        List<Long> ids = this.agregarJuegos(db, 15);
+        agregarPersonajes(db, 5, ids);
+    }
+
+    private List<Long> agregarJuegos(SQLiteDatabase db, int size) {
+        List<Long> l = new ArrayList<>(size);
+        for (int i = 1; i <= size; i++) {
+            Juego juego = new Juego();
+            juego.setNombre("JUEGO_" + i);
+            juego.setPlataforma("PLATAFORMA_" + i);
+            juego.setEstudio("ESTUDIO_" + i);
+            juego.setAno_publicacion("2016");
+            juego.setCurso("En curso");
+            juego.setFotoId(R.drawable.gta_v);
+
+            l.add(this.agregarJuego(db, juego));
+        }
+        return l;
+    }
+
+    private void agregarPersonajes(SQLiteDatabase db, int size, List<Long> juegos_ids) {
+        for (long id : juegos_ids) {
+            for (int i = 1; i <= size; i++) {
+                this.agregarPersonaje(db, new Personaje("PERSONAJE_" + id + "-" + i, "RAZA_" + id + "-" + i, "NIVEL_" + id + "-" + i), id);
+            }
+        }
+    }
 
 }

@@ -1,6 +1,7 @@
 package com.example.alejandro.jocs_admin_posta;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +52,8 @@ public class JuegoAdapter extends RecyclerView.Adapter<JuegoAdapter.JuegoViewHol
 
     public static class JuegoViewHolder extends RecyclerView.ViewHolder {
 
+        public static final String EXTRA_JUEGO = "juego";
+
         protected Juego currentJuego;
 
         protected TextView vNombre;
@@ -80,6 +83,9 @@ public class JuegoAdapter extends RecyclerView.Adapter<JuegoAdapter.JuegoViewHol
                     Intent intent = new Intent(v.getContext(), JuegoInfoActivity.class);
 //                    EditText editText = (EditText) findViewById(R.id.edit_message);
 //                    String message = editText.getText().toString();
+                    Bundle b = new Bundle();
+                    b.putSerializable(EXTRA_JUEGO, currentJuego);
+                    intent.putExtras(b);
 //                    intent.putExtra(EXTRA_MESSAGE, message);
                     v.getContext().startActivity(intent);
                 }

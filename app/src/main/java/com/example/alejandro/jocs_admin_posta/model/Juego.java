@@ -1,9 +1,11 @@
 package com.example.alejandro.jocs_admin_posta.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Alejandro on 31/5/2016.
  */
-public class Juego {
+public class Juego implements Serializable {
     //    List<Personaje> personajes;    ALGO CON LA BASE DE DATOS
 //    Objeto objetos;
 //    Mision missiones;
@@ -26,6 +28,11 @@ public class Juego {
 
     public Juego() {
 
+    }
+
+    @Override
+    public String toString() {
+        return nombre;
     }
 
     public long getId() {
