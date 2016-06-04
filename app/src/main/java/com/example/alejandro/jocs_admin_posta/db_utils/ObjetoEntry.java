@@ -17,6 +17,7 @@ public class ObjetoEntry implements BaseColumns {
     public static final String CREATE_TABLE_OBJETOS = "CREATE TABLE "
             + TABLE_NAME + "(" + COLUMN_KEY_OBJETO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             COLUMN_NOMBRE + " TEXT," +
+            //            TODO: QUE NIVEL SEA INT PORQUE SINO SE ORDENA MAL (1 -> 10 -> 2)
             COLUMN_NIVEL + " TEXT," +
             COLUMN_KEY_JUEGO_ID + " INTEGER)";
 }

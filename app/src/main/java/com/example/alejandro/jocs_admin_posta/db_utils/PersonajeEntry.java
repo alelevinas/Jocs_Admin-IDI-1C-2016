@@ -20,6 +20,7 @@ public class PersonajeEntry implements BaseColumns {
             + TABLE_NAME + "(" + COLUMN_KEY_PERSONAJE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             COLUMN_NOMBRE + " TEXT," +
             COLUMN_RAZA + " TEXT," +
+//            TODO: QUE NIVEL SEA INT PORQUE SINO SE ORDENA MAL (1 -> 10 -> 2)
             COLUMN_NIVEL + " TEXT," +
             COLUMN_KEY_JUEGO_ID + " INTEGER)";
 }

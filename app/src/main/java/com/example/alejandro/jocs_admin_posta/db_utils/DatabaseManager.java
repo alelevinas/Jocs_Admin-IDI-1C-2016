@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.example.alejandro.jocs_admin_posta.R;
 import com.example.alejandro.jocs_admin_posta.model.Juego;
+import com.example.alejandro.jocs_admin_posta.model.Mision;
 import com.example.alejandro.jocs_admin_posta.model.Objeto;
 import com.example.alejandro.jocs_admin_posta.model.Personaje;
 
@@ -254,11 +255,72 @@ public class DatabaseManager {
                 " ORDER BY " + ObjetoEntry.COLUMN_NIVEL);
     }
 
+
+    // ------------------------ "Misions" table methods ----------------//
+
+    public long agregarMision(Mision mision, long juego_id) {
+        SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+        return agregarMision(db, mision, juego_id);
+    }
+
+    public long agregarMision(SQLiteDatabase db, Mision mision, long juego_id) {
+        ContentValues values = new ContentValues();
+        values.put(MisionEntry.COLUMN_TITULO, mision.getTitulo());
+        values.put(MisionEntry.COLUMN_DESCRIPCION, mision.getDescripcion());
+        values.put(MisionEntry.COLUMN_PUNTUACION, mision.getPuntuacion());
+
+//        values.put(MisionEntry.COLUMN_KEY_JUEGO_ID, mision.getJuego_id());
+        values.put(MisionEntry.COLUMN_KEY_JUEGO_ID, juego_id);
+
+        // Insert the new row, returning the primary key value of the new row
+        long mision_id = db.insert(MisionEntry.TABLE_NAME, null, values);
+
+        mision.setId(mision_id);
+
+        return mision_id;
+    }
+
+
+    /**
+     * getting all misions
+     */
+    public List<Mision> getAllMisiones(String selectQuery) {
+        List<Mision> misiones = new ArrayList<Mision>();
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+
+        if (c.moveToFirst()) {
+            do {
+                Mision mision = new Mision();
+                mision.setId(c.getLong(c.getColumnIndex(MisionEntry.COLUMN_KEY_MISION_ID)));
+                mision.setTitulo(c.getString(c.getColumnIndex(MisionEntry.COLUMN_TITULO)));
+                mision.setDescripcion(c.getString(c.getColumnIndex(MisionEntry.COLUMN_DESCRIPCION)));
+                mision.setPuntuacion(c.getString(c.getColumnIndex(MisionEntry.COLUMN_PUNTUACION)));
+                mision.setJuegoId(c.getLong(c.getColumnIndex(MisionEntry.COLUMN_KEY_JUEGO_ID)));
+
+                // adding to mision list
+                misiones.add(mision);
+            } while (c.moveToNext());
+        }
+        return misiones;
+    }
+
+    public List<Mision> getAllMisionesFromJuego(long id) {
+        return this.getAllMisiones("SELECT  * FROM " + MisionEntry.TABLE_NAME +
+                " WHERE " + MisionEntry.COLUMN_KEY_JUEGO_ID + " = " + id);
+    }
+
     //    ------------------------------- PA POPULAR --------------------------
     public void populateDb(SQLiteDatabase db) {
         List<Long> ids = this.agregarJuegos(db, 15);
-        agregarPersonajes(db, 5, ids);
-        agregarObjetos(db, 5, ids);
+        agregarPersonajes(db, 25, ids);
+        agregarObjetos(db, 25, ids);
+        agregarMisiones(db, 25, ids);
     }
 
     private List<Long> agregarJuegos(SQLiteDatabase db, int size) {
@@ -289,6 +351,14 @@ public class DatabaseManager {
         for (long id : juegos_ids) {
             for (int i = 1; i <= size; i++) {
                 this.agregarObjeto(db, new Objeto("OBJETO_" + id + "-" + i, "NIVEL_" + id + "-" + i), id);
+            }
+        }
+    }
+
+    private void agregarMisiones(SQLiteDatabase db, int size, List<Long> juegos_ids) {
+        for (long id : juegos_ids) {
+            for (int i = 1; i <= size; i++) {
+                this.agregarMision(db, new Mision("MISION_" + id + "-" + i, "Descripcion que suele ser un poco mas larga_" + id + "-" + i, "PUNTUACION PERFECTA WACHOOO"), id);
             }
         }
     }

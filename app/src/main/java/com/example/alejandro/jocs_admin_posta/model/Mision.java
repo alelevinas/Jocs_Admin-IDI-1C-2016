@@ -5,10 +5,11 @@ package com.example.alejandro.jocs_admin_posta.model;
  */
 public class Mision {
 
-    int id;
+    long id;
     String titulo;
     String descripcion;
     String puntuacion;
+    long juegoId;
 
     public Mision(String titulo, String descripcion, String puntuacion) {
         this.titulo = titulo;
@@ -16,11 +17,15 @@ public class Mision {
         this.puntuacion = puntuacion;
     }
 
-    public int getId() {
+    public Mision() {
+
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -46,5 +51,9 @@ public class Mision {
 
     public void setPuntuacion(String puntuacion) {
         this.puntuacion = puntuacion;
+    }
+
+    public void setJuegoId(long juegoId) {
+        this.juegoId = juegoId;
     }
 }
