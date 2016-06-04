@@ -121,7 +121,7 @@ public class JuegoInfoActivity extends AppCompatActivity {
                     return JuegoObjetosFragment.newInstance(j);
                 case 3:
                     //return JuegoMisiones
-                    return JuegoInfoFragment.newInstance(j);
+                    return JuegoMisionesFragment.newInstance(j);
                 default:
                     return JuegoInfoFragment.newInstance(j);
             }

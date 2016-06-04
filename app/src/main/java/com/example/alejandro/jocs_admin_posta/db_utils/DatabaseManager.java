@@ -317,14 +317,92 @@ public class DatabaseManager {
 
     //    ------------------------------- PA POPULAR --------------------------
     public void populateDb(SQLiteDatabase db) {
+        agregarSuperMario64(db);
+        agregarLegendOfZeldaOcarinaOfTime(db);
+
+
         List<Long> ids = this.agregarJuegos(db, 15);
         agregarPersonajes(db, 25, ids);
         agregarObjetos(db, 25, ids);
         agregarMisiones(db, 25, ids);
     }
 
+    private void agregarLegendOfZeldaOcarinaOfTime(SQLiteDatabase db) {
+        Juego zelda = new Juego();
+        zelda.setNombre("The Legend of Zelda: Ocarina of Time");
+        zelda.setPlataforma("Nintendo 64");
+        zelda.setEstudio("Nintendo");
+        zelda.setAno_publicacion("1998");
+        zelda.setCurso("No Iniciado");
+        zelda.setFotoId(R.mipmap.the_legend_of_zelda_ocarina_of_time);
+
+        long id = this.agregarJuego(db, zelda);
+
+        this.agregarPersonaje(db, new Personaje("Link", "Hyliano", "1"), id);
+        this.agregarPersonaje(db, new Personaje("Princesa Zelda", "Hyliano", "1"), id);
+        this.agregarPersonaje(db, new Personaje("Ganondorf", "Gerudo", "1"), id);
+        this.agregarPersonaje(db, new Personaje("Nadi", "Hada", "1"), id);
+        this.agregarPersonaje(db, new Personaje("Sheik", "Sheikah", "1"), id);
+
+        this.agregarObjeto(db, new Objeto("Kokiri Sword", "1"), id);
+        this.agregarObjeto(db, new Objeto("Master Sword", "1"), id);
+        this.agregarObjeto(db, new Objeto("Giant's Knife", "1"), id);
+        this.agregarObjeto(db, new Objeto("Deku Nuts", "1"), id);
+        this.agregarObjeto(db, new Objeto("Fire Arrows", "1"), id);
+        this.agregarObjeto(db, new Objeto("Ice Arrows", "1"), id);
+        this.agregarObjeto(db, new Objeto("Quiver", "1"), id);
+        this.agregarObjeto(db, new Objeto("Deku Shield", "1"), id);
+        this.agregarObjeto(db, new Objeto("Kokiri Boots", "1"), id);
+        this.agregarObjeto(db, new Objeto("Kokiri Tunic", "1"), id);
+        this.agregarObjeto(db, new Objeto("Ocarina of Time", "1"), id);
+
+
+        this.agregarMision(db, new Mision("Interior_del_Gran_Árbol_Deku", "El Interior del Gran Árbol Deku (Inside the Deku Tree en inglés) es la primera mazmorra en The Legend of Zelda: Ocarina of Time y por lo tanto la primera mazmorra en 3D de la saga de Zelda. Esta mazmorra continúa una tendencia en los juegos de la saga, ya que es la primera mazmorra con una temática forestal. También es la segunda mazmorra que tendrá lugar dentro de un árbol, la primera es una mazmorra de The Legend of Zelda. Sin embargo, esta mazmorra era presumiblemente dentro árbol muerto, por lo que estamos hablando de la primera mazmorra que tiene lugar en un ser vivo.", "0%"), id);
+        this.agregarMision(db, new Mision("Princesa del Destino", "Después de derrotar al jefe y entrar en la luz, aparecerás de nuevo fuera, sólo para oír una conferencia del Árbol Deku cuando finalmente revela lo que le sucedió. Un hombre malvado del desierto exigió al Árbol Deku una de las tres piedras espirituales, que al juntarse, pueden abrir una puerta al Reino Sagrado. Una vez allí, el hombre malvado sería capaz de obtener la Trifuerza, un objeto de poder omnipotente dejado por las tres Diosas de Oro que crearon la tierra de Hyrule.\n" +
+                "\n" +
+                "Después de su épica historia, el Árbol Deku insiste en que el hombre malvado del desierto debe ser detenido y nunca permitirle entrar al Reino Sagrado. Debido a que el Árbol Deku no le dio la piedra espiritual del bosque, la Esmeralda Kokiri, el malvado hombre lanzó una maldición sobre él, que acabaría con su vida, hiciese lo que se hiciese. Antes de morir, insta a Link a buscar a la \"Princesa del Destino\" en el Castillo de Hyrule y te da la piedra que el hombre buscaba. El Gran Árbol Deku, el guardián de los Kokiri, muere...", "0%"), id);
+        this.agregarMision(db, new Mision("Canción del Sol", "Busqueda del cofre pequeño que contiene el Escudo Hylian.", "0%"), id);
+        this.agregarMision(db, new Mision("Canción de Epona", "Busqueda en el Rancho Lon Lon de una Pieza de Corazon", "0%"), id);
+
+    }
+
+    void agregarSuperMario64(SQLiteDatabase db) {
+        Juego SuperMario = new Juego();
+        SuperMario.setNombre("Super Mario 64");
+        SuperMario.setPlataforma("Nintendo 64");
+        SuperMario.setEstudio("Nintendo");
+        SuperMario.setAno_publicacion("1996");
+        SuperMario.setCurso("Iniciado");
+        SuperMario.setFotoId(R.mipmap.super_mario_64);
+        long id = this.agregarJuego(db, SuperMario);
+
+        this.agregarPersonaje(db, new Personaje("Mario", "Plomero", "6"), id);
+        this.agregarPersonaje(db, new Personaje("Luigi", "Plomero", "5"), id);
+        this.agregarPersonaje(db, new Personaje("Peach", "Princesa", "1"), id);
+        this.agregarPersonaje(db, new Personaje("Todd", "Hongo", "1"), id);
+
+        this.agregarObjeto(db, new Objeto("Hongo Rojo", "2"), id);
+        this.agregarObjeto(db, new Objeto("Hongo Verde", "1"), id);
+        this.agregarObjeto(db, new Objeto("Estrella", "6"), id);
+        this.agregarObjeto(db, new Objeto("Flor", "9"), id);
+
+        Mision bomb_battlefield = new Mision("Bob-omb Battlefield", "Bob-omb Battlefield is the first course in Super Mario 64 and Super Mario 64 DS. The painting through which Mario can enter Bob-omb Battlefield is located on the first floor of Princess Peach's Castle, through the door on the far left. It does not require any Power Stars to enter. Bob-omb Battlefield takes place in a grassland area with many trees. It contains several mountains and hills which can be climbed. Bob-omb Battlefield is always in constant war, with the Black Bob-ombs fighting against the Bob-omb Buddies. Mario's enemies include Bob-ombs, Goombas, a Koopa Troopa and a Chain Chomp, the only one in Super Mario 64. There are several Wing Cap ! Blocks and six cannons in the level.", "6 Estrellas");
+        Mision whomp_fortress = new Mision("Whomp's Fortress", "Whomp's Fortress, also known as the Whomp King's Fortress[1], is the stronghold home of the Whomp race and their leader, the Whomp King. It is the second level in Super Mario 64 and its Nintendo DS remake, Super Mario 64 DS, and can be accessed via a painting on the first floor of Princess Peach's Castle. Only one Power Star is needed to open the door to the painting. In Super Mario 64 DS, a few minor changes were made, and in Super Mario Galaxy 2, the Throwback Galaxy is essentially a replica of Whomp's Fortress.", "5 Estrellas");
+        Mision Jolly_Roger_Bay = new Mision("Jolly Roger Bay", "Jolly Roger Bay is the third course in Super Mario 64 and its remake, Super Mario 64 DS. It is a stage filled with water and surrounded by cliffs. Above the water are two Metal Cap blocks, a cannon and a ! Switch to make a bridge to a sunken pirate ship (once it rises out of the water). Under the water is the ship in the first level, Unagi when that level is completed, a third Metal Cap, and the tunnel to the pirates cave. The entrance to Jolly Roger Bay is on the main floor of Peach's castle, up the stairs to the right, and behind the star door labeled \"3\", meaning that three Power Stars are required to enter. Along with Dire, Dire Docks, one of this stage's most unique features is that another layer of instruments is added to the song as Mario dives in the water, and another as Mario enters the cave. Jolly Roger is also the name given to the typical pirate flags. It is also the name of the infamous pirate ship of Captain Hook, the pirate from Peter Pan.", "2 Estrellas");
+        Mision Cool_Cool_Mountain = new Mision("Cool, Cool Mountain", "Cool, Cool Mountain is the fourth level found inside a painting in the games Super Mario 64 and Super Mario 64 DS. The entrance is on the first floor of Princess Peach's Castle, and behind the other star door labeled \"3\". It is the home of several Penguins and Spindrifts. There are three cannons, a Slide, and a teleportation area at the end of the broken bridges. Bottomless pits surround this mountain, as it appears to be floating in the sky, so it is possible to fall off the course. Mario begins at the summit (unlike Tall, Tall Mountain) and must progress down the icy slopes all around the mountain. At the summit is a house with an oversized chimney that Mario can enter. Inside is a large penguin that will race Mario on a huge ice slide. In between the top and bottom is the Headless Snowman. A quick reference to Santa Claus, who has a more major role in other forms of Mario media (such as cartoons), is made on a sign near the starting point of Cool, Cool Mountain.", "6 Estrellas");
+        Mision Rainbow_Ride = new Mision("Rainbow Ride", "Rainbow Ride is the fifteenth and last course in Super Mario 64 and Super Mario 64 DS. In Japan and Korea, the course is known as Rainbow Cruise. It is accessible in the highest room in Princess Peach's Castle, which also contains the gate to Tick Tock Clock. Unlike most courses in the game, Rainbow Ride is not entered through a painting, but through a hole in a niche opposite to that of Wing Mario Over the Rainbow.", "7 Estrellas");
+
+        this.agregarMision(db, bomb_battlefield, id);
+        this.agregarMision(db, whomp_fortress, id);
+        this.agregarMision(db, Jolly_Roger_Bay, id);
+        this.agregarMision(db, Cool_Cool_Mountain, id);
+        this.agregarMision(db, Rainbow_Ride, id);
+    }
+
+
     private List<Long> agregarJuegos(SQLiteDatabase db, int size) {
         List<Long> l = new ArrayList<>(size);
+
         for (int i = 1; i <= size; i++) {
             Juego juego = new Juego();
             juego.setNombre("JUEGO_" + i);
@@ -362,7 +440,6 @@ public class DatabaseManager {
             }
         }
     }
-
 
 
 }
