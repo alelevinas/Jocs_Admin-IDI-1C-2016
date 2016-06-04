@@ -65,7 +65,7 @@ public class JuegoObjetosFragment extends Fragment {
 
 //        List<Objeto> objetos = DatabaseManager.getInstance().getAllObjetos();
         List<Objeto> objetos = DatabaseManager.getInstance().getAllObjetosFromJuego(juego.getId());
-        ObjetoAdapter pa = new ObjetoAdapter(objetos);
+        ObjetoAdapter pa = new ObjetoAdapter(getActivity(), objetos);
         recList.setAdapter(pa);
 
 
