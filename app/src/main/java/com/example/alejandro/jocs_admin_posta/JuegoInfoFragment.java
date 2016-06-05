@@ -79,6 +79,7 @@ public class JuegoInfoFragment extends Fragment {
         vAno_publicacion.setText(juego.getAno_publicacion());
         vCurso.setText(juego.getCurso());
         vFotoId.setImageResource(juego.getFotoId());
+//        vFotoId.setImageBitmap(BitmapFactory.decodeByteArray(juego.laFoto,0,juego.laFoto.length));
 
 
         FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.editar_juego_fab);
@@ -90,7 +91,7 @@ public class JuegoInfoFragment extends Fragment {
 
                 Context context = view.getContext();
                 Intent intent = new Intent(context, JuegoEditarActivity.class);
-                intent.putExtra(JuegoEditarActivityFragment.ARG_JUEGO_ID, juego.getId());
+                intent.putExtra(JuegoEditarActivity.ARG_JUEGO_ID, juego.getId());
 
                 context.startActivity(intent);
             }

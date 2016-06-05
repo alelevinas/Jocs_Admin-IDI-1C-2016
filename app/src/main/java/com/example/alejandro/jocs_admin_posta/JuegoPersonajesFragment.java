@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.alejandro.jocs_admin_posta.db_utils.DatabaseManager;
-import com.example.alejandro.jocs_admin_posta.db_utils.JocsAdminDbHelper;
 import com.example.alejandro.jocs_admin_posta.model.Juego;
 import com.example.alejandro.jocs_admin_posta.model.Personaje;
 
@@ -61,7 +60,7 @@ public class JuegoPersonajesFragment extends Fragment {
         recList.setLayoutManager(glm);
 
 
-        DatabaseManager.initializeInstance(new JocsAdminDbHelper(v.getContext()));
+//        DatabaseManager.initializeInstance(new JocsAdminDbHelper(v.getContext()));
 
 //        List<Personaje> personajes = DatabaseManager.getInstance().getAllPersonajes();
         List<Personaje> personajes = DatabaseManager.getInstance().getAllPersonajesFromJuego(juego.getId());

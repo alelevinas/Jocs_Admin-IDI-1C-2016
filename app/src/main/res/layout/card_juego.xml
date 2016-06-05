@@ -45,7 +45,7 @@
             android:layout_marginTop="5dp"
             android:layout_toEndOf="@+id/juego_foto"
             android:gravity="center_vertical"
-            android:textSize="10sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/txtPlataforma"
@@ -55,7 +55,7 @@
             android:layout_below="@id/txtEstudio"
             android:layout_marginTop="5dp"
             android:gravity="center_vertical"
-            android:textSize="10sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/txtAnoPublicacion"
@@ -65,7 +65,7 @@
             android:layout_alignStart="@id/txtEstudio"
             android:layout_below="@id/txtPlataforma"
             android:layout_marginTop="5dp"
-            android:textSize="10sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/txtCurso"
@@ -74,7 +74,7 @@
             android:layout_alignStart="@id/txtEstudio"
             android:layout_below="@id/txtAnoPublicacion"
             android:layout_marginTop="5dp"
-            android:textSize="10sp" />
+            android:textSize="18sp" />
 
     </RelativeLayout>
 

@@ -70,10 +70,10 @@ public class MainActivity extends AppCompatActivity
         recList.setLayoutManager(llm);
 
 
-        DatabaseManager.initializeInstance(new JocsAdminDbHelper(this.getApplicationContext()));
+        DatabaseManager.initializeInstance(new JocsAdminDbHelper(this.getApplicationContext()), this.getApplicationContext());
 
         //TODO: SACAR ESTO!!!!!
-//        DatabaseManager.getInstance().restart();
+        DatabaseManager.getInstance().restart();
 
         List<Juego> juegos = DatabaseManager.getInstance().getAllJuegos();
         JuegoAdapter ca = new JuegoAdapter(juegos);

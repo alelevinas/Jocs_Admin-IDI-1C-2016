@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.alejandro.jocs_admin_posta.JuegoEditarActivityFragment"
+    tools:context="com.example.alejandro.jocs_admin_posta.JuegoEditarActivity"
     tools:showIn="@layout/activity_juego_editar">
 
 
@@ -60,7 +60,7 @@
         android:text="Año de publicación" />
 
     <Spinner
-        android:id="@+id/spinnerEstado"
+        android:id="@+id/spinnerCurso"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/textView2"
@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@id/editAnoPublicacion"
         android:layout_below="@+id/editAnoPublicacion"
-        android:text="Estado"
+        android:text="Curso"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

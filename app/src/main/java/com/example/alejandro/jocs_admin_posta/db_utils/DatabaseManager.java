@@ -1,10 +1,13 @@
 package com.example.alejandro.jocs_admin_posta.db_utils;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.drawable.Drawable;
+import android.database.sqlite.SQLiteStatement;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.example.alejandro.jocs_admin_posta.R;
@@ -13,6 +16,7 @@ import com.example.alejandro.jocs_admin_posta.model.Mision;
 import com.example.alejandro.jocs_admin_posta.model.Objeto;
 import com.example.alejandro.jocs_admin_posta.model.Personaje;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,11 +28,13 @@ public class DatabaseManager {
     private static final String LOG = DatabaseManager.class.getName();
     private static DatabaseManager instance;
     private static SQLiteOpenHelper mDatabaseHelper;
+    private static Context context;
     private Integer mOpenCounter = 0;
 
-    public static synchronized void initializeInstance(SQLiteOpenHelper helper) {
+    public static synchronized void initializeInstance(SQLiteOpenHelper helper, Context cont) {
         if (instance == null) {
             instance = new DatabaseManager();
+            context = cont;
             mDatabaseHelper = helper;
         }
     }
@@ -50,6 +56,7 @@ public class DatabaseManager {
         db.execSQL("DROP TABLE IF EXISTS " + MisionEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + ObjetoEntry.TABLE_NAME);
         mDatabaseHelper.onCreate(db);
+//        mDatabaseHelper.onUpgrade(db,1,2);
     }
 
     // ------------------------ "juegos" table methods ----------------//
@@ -60,19 +67,33 @@ public class DatabaseManager {
     }
 
     public long agregarJuego(SQLiteDatabase db, Juego juego) {
-        ContentValues values = new ContentValues();
-        values.put(JuegoEntry.COLUMN_NOMBRE, juego.getNombre());
-        values.put(JuegoEntry.COLUMN_PLATAFORMA, juego.getPlataforma());
-        values.put(JuegoEntry.COLUMN_ESTUDIO, juego.getEstudio());
-        values.put(JuegoEntry.COLUMN_ANO_PUBLICACION, juego.getAno_publicacion());
-        values.put(JuegoEntry.COLUMN_CURSO, juego.getCurso());
-        values.put(JuegoEntry.COLUMN_FOTO_ID, juego.getFotoId());
+//        ContentValues values = new ContentValues();
+//        values.put(JuegoEntry.COLUMN_NOMBRE, juego.getNombre());
+//        values.put(JuegoEntry.COLUMN_PLATAFORMA, juego.getPlataforma());
+//        values.put(JuegoEntry.COLUMN_ESTUDIO, juego.getEstudio());
+//        values.put(JuegoEntry.COLUMN_ANO_PUBLICACION, juego.getAno_publicacion());
+//        values.put(JuegoEntry.COLUMN_CURSO, juego.getCurso());
+//        values.put(JuegoEntry.COLUMN_FOTO_ID, juego.getFotoId());
+//        values.put(JuegoEntry.COLUMN_FOTO, juego.getLaFoto());
+
+        String sql = JuegoEntry.INSERT_JUEGO;
+        SQLiteStatement insertStmt = db.compileStatement(sql);
+        insertStmt.clearBindings();
+        insertStmt.bindString(1, juego.getNombre());
+        insertStmt.bindString(2, juego.getPlataforma());
+        insertStmt.bindString(3, juego.getEstudio());
+        insertStmt.bindString(4, juego.getAno_publicacion());
+        insertStmt.bindString(5, juego.getCurso());
+        insertStmt.bindLong(6, juego.getFotoId());
+        insertStmt.bindBlob(7, juego.getLaFoto());
+        long juego_id = insertStmt.executeInsert();
+
+
 
         // Insert the new row, returning the primary key value of the new row
-        long juego_id = db.insert(JuegoEntry.TABLE_NAME, null, values);
+//        long juego_id = db.insert(JuegoEntry.TABLE_NAME, null, values);
 
         juego.setId(juego_id);
-
         return juego_id;
     }
 
@@ -101,6 +122,7 @@ public class DatabaseManager {
         juego.setAno_publicacion(c.getString(c.getColumnIndex(JuegoEntry.COLUMN_ANO_PUBLICACION)));
         juego.setCurso(c.getString(c.getColumnIndex(JuegoEntry.COLUMN_CURSO)));
         juego.setFotoId(c.getInt(c.getColumnIndex(JuegoEntry.COLUMN_FOTO_ID)));
+
 
         return juego;
     }
@@ -134,6 +156,30 @@ public class DatabaseManager {
             } while (c.moveToNext());
         }
         return juegos;
+    }
+
+    public void updateJuego(long juego_id, String mTituloText, String mPlataformaText,
+                            String mEstudioText, String mAnoPublicacionText, String mEstadoText,
+                            Bitmap mImagen) {
+        SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(JuegoEntry.COLUMN_NOMBRE, mTituloText);
+        values.put(JuegoEntry.COLUMN_PLATAFORMA, mPlataformaText);
+        values.put(JuegoEntry.COLUMN_ESTUDIO, mEstudioText);
+        values.put(JuegoEntry.COLUMN_ANO_PUBLICACION, mAnoPublicacionText);
+        values.put(JuegoEntry.COLUMN_CURSO, mEstadoText);
+//        values.put(JuegoEntry.COLUMN_FOTO_ID, m);
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        if (mImagen.compress(Bitmap.CompressFormat.PNG, 100, stream))
+            Log.e("BITMAPPPP", "NO SE PUDO SACAR LOS BITS!!!!");
+        byte[] bitmapdata = stream.toByteArray();
+
+        values.put(JuegoEntry.COLUMN_FOTO, bitmapdata);
+
+
+        db.update(JuegoEntry.TABLE_NAME, values, JuegoEntry.COLUMN_KEY_JUEGO_ID + " = " + Long.toString(juego_id), null);
     }
 
 
@@ -324,8 +370,8 @@ public class DatabaseManager {
         agregarLegendOfZeldaOcarinaOfTime(db);
 
 
-        List<Long> ids = this.agregarJuegos(db, 15);
-        agregarPersonajes(db, 25, ids);
+        List<Long> ids = this.agregarJuegos(db, 10);
+        agregarPersonajes(db, 15, ids);
         agregarObjetos(db, 25, ids);
         agregarMisiones(db, 25, ids);
     }
@@ -338,6 +384,13 @@ public class DatabaseManager {
         zelda.setAno_publicacion("1998");
         zelda.setCurso("No Iniciado");
         zelda.setFotoId(R.mipmap.the_legend_of_zelda_ocarina_of_time);
+
+        Bitmap bMap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.the_legend_of_zelda_ocarina_of_time);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bMap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] bitmapdata = stream.toByteArray();
+        zelda.setLaFoto(bitmapdata);
+
 
         long id = this.agregarJuego(db, zelda);
 
@@ -376,6 +429,13 @@ public class DatabaseManager {
         SuperMario.setAno_publicacion("1996");
         SuperMario.setCurso("Iniciado");
         SuperMario.setFotoId(R.mipmap.super_mario_64);
+
+        Bitmap bMap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.super_mario_64);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bMap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] bitmapdata = stream.toByteArray();
+        SuperMario.setLaFoto(bitmapdata);
+
         long id = this.agregarJuego(db, SuperMario);
 
         this.agregarPersonaje(db, new Personaje("Mario", "Plomero", "6", R.mipmap.mario_mario), id);
@@ -414,6 +474,13 @@ public class DatabaseManager {
             juego.setCurso("En curso");
             juego.setFotoId(R.drawable.gta_v);
 
+            Bitmap bMap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.gtav);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            if (bMap.compress(Bitmap.CompressFormat.PNG, 50, stream))
+                Log.e("BITMAPPPP", "NO SE PUDO SACAR LOS BITS!!!!");
+            byte[] bitmapdata = stream.toByteArray();
+            juego.setLaFoto(bitmapdata);
+
             l.add(this.agregarJuego(db, juego));
         }
         return l;
@@ -444,7 +511,4 @@ public class DatabaseManager {
     }
 
 
-    public void updateJuego(String mTituloText, String mPlataformaText, String mEstudioText, String mAnoPublicacionText, String mEstadoText, Drawable mImagenDrawable) {
-        ////////////////////UPDATEAR LA BASE DE DATOS!!!!
-    }
 }

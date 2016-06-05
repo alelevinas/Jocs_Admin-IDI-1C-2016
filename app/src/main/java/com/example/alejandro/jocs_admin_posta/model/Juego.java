@@ -6,6 +6,7 @@ import java.io.Serializable;
  * Created by Alejandro on 31/5/2016.
  */
 public class Juego implements Serializable {
+    public byte[] laFoto;
     //    List<Personaje> personajes;    ALGO CON LA BASE DE DATOS
 //    Objeto objetos;
 //    Mision missiones;
@@ -17,7 +18,6 @@ public class Juego implements Serializable {
     String ano_publicacion;
     String curso;
 
-
     public Juego(String ano_publicacion, String curso, String nombre, String plataforma, String estudio) {
         this.nombre = nombre;
         this.plataforma = plataforma;
@@ -28,6 +28,14 @@ public class Juego implements Serializable {
 
     public Juego() {
 
+    }
+
+    public byte[] getLaFoto() {
+        return laFoto;
+    }
+
+    public void setLaFoto(byte[] laFoto) {
+        this.laFoto = laFoto;
     }
 
     @Override

@@ -14,6 +14,7 @@ public class JuegoEntry implements BaseColumns {
     public static final String COLUMN_ANO_PUBLICACION = "ano_publicacion";
     public static final String COLUMN_CURSO = "curso";
     public static final String COLUMN_FOTO_ID = "foto_id";
+    public static final String COLUMN_FOTO = "la_foto";
 
     //        table create statement
     public static final String CREATE_TABLE_JUEGOS = "CREATE TABLE "
@@ -23,5 +24,18 @@ public class JuegoEntry implements BaseColumns {
             COLUMN_ESTUDIO + " TEXT," +
             COLUMN_ANO_PUBLICACION + " TEXT," +
             COLUMN_CURSO + " TEXT," +
-            COLUMN_FOTO_ID + " INTEGER)";
+            COLUMN_FOTO_ID + " INTEGER, " +
+            COLUMN_FOTO + " BLOB)";
+
+    public static final String INSERT_JUEGO = "INSERT INTO " + TABLE_NAME +
+            " (" +
+            COLUMN_NOMBRE + "," +
+            COLUMN_PLATAFORMA + "," +
+            COLUMN_ESTUDIO + "," +
+            COLUMN_ANO_PUBLICACION + "," +
+            COLUMN_CURSO + "," +
+            COLUMN_FOTO_ID + "," +
+            COLUMN_FOTO
+            + ") " + "VALUES(?,?,?,?,?,?,?)";
+
 }
