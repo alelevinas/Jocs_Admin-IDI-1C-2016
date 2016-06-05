@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -21,18 +21,29 @@
         android:textAppearance="?attr/textAppearanceListItem"
         android:textSize="24sp" />
 
-    <TextView
+    <!--<TextView
         android:id="@+id/mision_descripcion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
+        android:textAppearance="?attr/textAppearanceListItem" />-->
+
+    <TextView
+        android:id="@+id/mision_estado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mision_titulo"
+        android:gravity="center_vertical"
+        android:text="Puntuación:   "
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <TextView
         android:id="@+id/mision_puntuacion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/mision_estado"
+        android:layout_toRightOf="@id/mision_estado"
         android:gravity="center_vertical"
         android:textAppearance="?attr/textAppearanceListItem" />
 
-</LinearLayout>
+</RelativeLayout>

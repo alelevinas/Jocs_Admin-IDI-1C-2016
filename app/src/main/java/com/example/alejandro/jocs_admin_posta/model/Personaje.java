@@ -1,5 +1,7 @@
 package com.example.alejandro.jocs_admin_posta.model;
 
+import com.example.alejandro.jocs_admin_posta.R;
+
 /**
  * Created by Alejandro on 31/5/2016.
  */
@@ -8,7 +10,15 @@ public class Personaje {
     String nombre;
     String raza;
     String nivel;
+    int fotoId;
     long juego_id;
+
+    public Personaje(String nombre, String raza, String nivel, int fotoID) {
+        this.nombre = nombre;
+        this.raza = raza;
+        this.nivel = nivel;
+        this.fotoId = fotoID;
+    }
 
     public Personaje() {
 
@@ -18,6 +28,15 @@ public class Personaje {
         this.nombre = nombre;
         this.raza = raza;
         this.nivel = nivel;
+        this.fotoId = R.mipmap.ic_launcher;
+    }
+
+    public int getFotoId() {
+        return fotoId;
+    }
+
+    public void setFotoId(int fotoId) {
+        this.fotoId = fotoId;
     }
 
     public long getJuego_id() {

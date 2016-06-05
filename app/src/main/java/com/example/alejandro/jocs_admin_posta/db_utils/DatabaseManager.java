@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import com.example.alejandro.jocs_admin_posta.R;
@@ -148,6 +149,7 @@ public class DatabaseManager {
         values.put(PersonajeEntry.COLUMN_NOMBRE, personaje.getNombre());
         values.put(PersonajeEntry.COLUMN_NIVEL, personaje.getNivel());
         values.put(PersonajeEntry.COLUMN_RAZA, personaje.getRaza());
+        values.put(JuegoEntry.COLUMN_FOTO_ID, personaje.getFotoId());
 
 //        values.put(PersonajeEntry.COLUMN_KEY_JUEGO_ID, personaje.getJuego_id());
         values.put(PersonajeEntry.COLUMN_KEY_JUEGO_ID, juego_id);
@@ -182,6 +184,7 @@ public class DatabaseManager {
                 personaje.setNombre(c.getString(c.getColumnIndex(PersonajeEntry.COLUMN_NOMBRE)));
                 personaje.setNivel(c.getString(c.getColumnIndex(PersonajeEntry.COLUMN_NIVEL)));
                 personaje.setRaza(c.getString(c.getColumnIndex(PersonajeEntry.COLUMN_RAZA)));
+                personaje.setFotoId(c.getInt(c.getColumnIndex(PersonajeEntry.COLUMN_FOTO_ID)));
                 personaje.setJuego_id(c.getLong(c.getColumnIndex(PersonajeEntry.COLUMN_KEY_JUEGO_ID)));
 
                 // adding to personaje list
@@ -338,11 +341,11 @@ public class DatabaseManager {
 
         long id = this.agregarJuego(db, zelda);
 
-        this.agregarPersonaje(db, new Personaje("Link", "Hyliano", "1"), id);
-        this.agregarPersonaje(db, new Personaje("Princesa Zelda", "Hyliano", "1"), id);
-        this.agregarPersonaje(db, new Personaje("Ganondorf", "Gerudo", "1"), id);
-        this.agregarPersonaje(db, new Personaje("Nadi", "Hada", "1"), id);
-        this.agregarPersonaje(db, new Personaje("Sheik", "Sheikah", "1"), id);
+        this.agregarPersonaje(db, new Personaje("Link", "Hyliano", "1", R.mipmap.zelda_link), id);
+        this.agregarPersonaje(db, new Personaje("Princesa Zelda", "Hyliano", "1", R.mipmap.zelda_zelda), id);
+        this.agregarPersonaje(db, new Personaje("Ganondorf", "Gerudo", "1", R.mipmap.zelda_ganondorf), id);
+        this.agregarPersonaje(db, new Personaje("Nadi", "Hada", "1", R.mipmap.zelda_nadi), id);
+        this.agregarPersonaje(db, new Personaje("Sheik", "Sheikah", "1", R.mipmap.zelda_sheik), id);
 
         this.agregarObjeto(db, new Objeto("Kokiri Sword", "1"), id);
         this.agregarObjeto(db, new Objeto("Master Sword", "1"), id);
@@ -357,10 +360,9 @@ public class DatabaseManager {
         this.agregarObjeto(db, new Objeto("Ocarina of Time", "1"), id);
 
 
-        this.agregarMision(db, new Mision("Interior_del_Gran_Árbol_Deku", "El Interior del Gran Árbol Deku (Inside the Deku Tree en inglés) es la primera mazmorra en The Legend of Zelda: Ocarina of Time y por lo tanto la primera mazmorra en 3D de la saga de Zelda. Esta mazmorra continúa una tendencia en los juegos de la saga, ya que es la primera mazmorra con una temática forestal. También es la segunda mazmorra que tendrá lugar dentro de un árbol, la primera es una mazmorra de The Legend of Zelda. Sin embargo, esta mazmorra era presumiblemente dentro árbol muerto, por lo que estamos hablando de la primera mazmorra que tiene lugar en un ser vivo.", "0%"), id);
+        this.agregarMision(db, new Mision("Interior del Gran Árbol Deku", "El Interior del Gran Árbol Deku (Inside the Deku Tree en inglés) es la primera mazmorra en The Legend of Zelda: Ocarina of Time y por lo tanto la primera mazmorra en 3D de la saga de Zelda. Esta mazmorra continúa una tendencia en los juegos de la saga, ya que es la primera mazmorra con una temática forestal. También es la segunda mazmorra que tendrá lugar dentro de un árbol, la primera es una mazmorra de The Legend of Zelda. Sin embargo, esta mazmorra era presumiblemente dentro árbol muerto, por lo que estamos hablando de la primera mazmorra que tiene lugar en un ser vivo.", "0%"), id);
         this.agregarMision(db, new Mision("Princesa del Destino", "Después de derrotar al jefe y entrar en la luz, aparecerás de nuevo fuera, sólo para oír una conferencia del Árbol Deku cuando finalmente revela lo que le sucedió. Un hombre malvado del desierto exigió al Árbol Deku una de las tres piedras espirituales, que al juntarse, pueden abrir una puerta al Reino Sagrado. Una vez allí, el hombre malvado sería capaz de obtener la Trifuerza, un objeto de poder omnipotente dejado por las tres Diosas de Oro que crearon la tierra de Hyrule.\n" +
-                "\n" +
-                "Después de su épica historia, el Árbol Deku insiste en que el hombre malvado del desierto debe ser detenido y nunca permitirle entrar al Reino Sagrado. Debido a que el Árbol Deku no le dio la piedra espiritual del bosque, la Esmeralda Kokiri, el malvado hombre lanzó una maldición sobre él, que acabaría con su vida, hiciese lo que se hiciese. Antes de morir, insta a Link a buscar a la \"Princesa del Destino\" en el Castillo de Hyrule y te da la piedra que el hombre buscaba. El Gran Árbol Deku, el guardián de los Kokiri, muere...", "0%"), id);
+                "\n" + "Después de su épica historia, el Árbol Deku insiste en que el hombre malvado del desierto debe ser detenido y nunca permitirle entrar al Reino Sagrado. Debido a que el Árbol Deku no le dio la piedra espiritual del bosque, la Esmeralda Kokiri, el malvado hombre lanzó una maldición sobre él, que acabaría con su vida, hiciese lo que se hiciese. Antes de morir, insta a Link a buscar a la \"Princesa del Destino\" en el Castillo de Hyrule y te da la piedra que el hombre buscaba. El Gran Árbol Deku, el guardián de los Kokiri, muere...", "0%"), id);
         this.agregarMision(db, new Mision("Canción del Sol", "Busqueda del cofre pequeño que contiene el Escudo Hylian.", "0%"), id);
         this.agregarMision(db, new Mision("Canción de Epona", "Busqueda en el Rancho Lon Lon de una Pieza de Corazon", "0%"), id);
 
@@ -376,10 +378,10 @@ public class DatabaseManager {
         SuperMario.setFotoId(R.mipmap.super_mario_64);
         long id = this.agregarJuego(db, SuperMario);
 
-        this.agregarPersonaje(db, new Personaje("Mario", "Plomero", "6"), id);
-        this.agregarPersonaje(db, new Personaje("Luigi", "Plomero", "5"), id);
-        this.agregarPersonaje(db, new Personaje("Peach", "Princesa", "1"), id);
-        this.agregarPersonaje(db, new Personaje("Todd", "Hongo", "1"), id);
+        this.agregarPersonaje(db, new Personaje("Mario", "Plomero", "6", R.mipmap.mario_mario), id);
+        this.agregarPersonaje(db, new Personaje("Luigi", "Plomero", "5", R.mipmap.mario_luigi), id);
+        this.agregarPersonaje(db, new Personaje("Peach", "Princesa", "1", R.mipmap.mario_peach), id);
+        this.agregarPersonaje(db, new Personaje("Toad", "Hongo", "1", R.mipmap.mario_toad), id);
 
         this.agregarObjeto(db, new Objeto("Hongo Rojo", "2"), id);
         this.agregarObjeto(db, new Objeto("Hongo Verde", "1"), id);
@@ -442,4 +444,7 @@ public class DatabaseManager {
     }
 
 
+    public void updateJuego(String mTituloText, String mPlataformaText, String mEstudioText, String mAnoPublicacionText, String mEstadoText, Drawable mImagenDrawable) {
+        ////////////////////UPDATEAR LA BASE DE DATOS!!!!
+    }
 }

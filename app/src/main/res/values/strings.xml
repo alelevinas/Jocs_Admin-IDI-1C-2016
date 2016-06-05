@@ -99,4 +99,16 @@
     </string>
     <string name="imagen_del_juego">Imagen del juego</string>
     <string name="imagen_del_personaje">Imagen del personaje</string>
+    <string name="estudio">Estudio:</string>
+    <string name="plataforma">Plataforma:</string>
+    <string name="a_o_de_publicaci_n">Año de publicación: \ \ \ </string>
+    <string name="estado">Estado:</string>
+    <string name="title_activity_juego_editar">JuegoEditarActivity</string>
+    <string name="action_descartar_cambios">Descartar cambios</string>
+
+    <string-array name="estados_juego">
+        <item>No iniciado</item>
+        <item>Iniciado</item>
+        <item>Terminado</item>
+    </string-array>
 </resources>

@@ -8,6 +8,7 @@ public class PersonajeEntry implements BaseColumns {
     public static final String COLUMN_NOMBRE = "nombre";
     public static final String COLUMN_RAZA = "raza";
     public static final String COLUMN_NIVEL = "nivel";
+    public static final String COLUMN_FOTO_ID = "foto_id";
     //referencia a la tabla JUEGOS
     public static final String COLUMN_KEY_JUEGO_ID = "juego_id";
 
@@ -22,5 +23,6 @@ public class PersonajeEntry implements BaseColumns {
             COLUMN_RAZA + " TEXT," +
 //            TODO: QUE NIVEL SEA INT PORQUE SINO SE ORDENA MAL (1 -> 10 -> 2)
             COLUMN_NIVEL + " TEXT," +
+            COLUMN_FOTO_ID + " INTEGER, " +
             COLUMN_KEY_JUEGO_ID + " INTEGER)";
 }

@@ -22,6 +22,10 @@
             android:name=".JuegoInfoActivity"
             android:label="@string/title_activity_juego_info"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".JuegoEditarActivity"
+            android:label="@string/title_activity_juego_editar"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

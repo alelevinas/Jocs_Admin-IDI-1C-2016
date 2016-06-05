@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:clickable="true"
-    card_view:cardCornerRadius="4dp"
+    card_view:cardCornerRadius="3dp"
     card_view:cardElevation="5dp"
     card_view:contentPaddingBottom="@dimen/activity_vertical_margin">
 
@@ -16,26 +16,22 @@
 
         <ImageView
             android:id="@+id/personaje_foto"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:layout_alignParentStart="true"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="5dp"
-            android:adjustViewBounds="true"
+            android:layout_marginEnd="1dp"
+            android:layout_marginTop="1dp"
             android:contentDescription="@string/imagen_del_personaje"
-            android:maxWidth="150dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/gta_v" />
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/personaje_nombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/personaje_foto"
-            android:background="@color/colorPrimary"
+            android:background="@android:color/holo_blue_light"
             android:gravity="center_vertical"
             android:textColor="@android:color/white"
-            android:textSize="20sp" />
+            android:textSize="30sp" />
 
 
         <TextView
@@ -45,7 +41,7 @@
             android:layout_below="@id/personaje_nombre"
             android:layout_marginTop="5dp"
             android:gravity="center_vertical"
-            android:textSize="10sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/txtPersonaje_nivel"
@@ -54,7 +50,7 @@
             android:layout_below="@id/txtPersonaje_raza"
             android:layout_marginTop="5dp"
             android:gravity="center_vertical"
-            android:textSize="10sp" />
+            android:textSize="20sp" />
 
     </RelativeLayout>
 

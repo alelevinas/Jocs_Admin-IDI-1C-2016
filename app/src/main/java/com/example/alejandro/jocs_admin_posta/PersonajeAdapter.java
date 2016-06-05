@@ -43,9 +43,9 @@ public class PersonajeAdapter extends RecyclerView.Adapter<PersonajeAdapter.Pers
         Personaje p = personajes.get(i);
         personajeViewHolder.vNombre.setText(p.getNombre());
         personajeViewHolder.vRaza.setText(p.getRaza());
-        personajeViewHolder.vNivel.setText(p.getNivel());
+        personajeViewHolder.vNivel.setText("Nivel: " + p.getNivel());
 
-//        personajeViewHolder.vFotoId.setImageResource(p.getFotoId());
+        personajeViewHolder.vFotoId.setImageResource(p.getFotoId());
 
         personajeViewHolder.currentPersonaje = p;
     }

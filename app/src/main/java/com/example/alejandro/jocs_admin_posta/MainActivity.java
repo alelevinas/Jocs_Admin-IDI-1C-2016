@@ -41,6 +41,12 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+//                Context context = view.getContext();
+//                Intent intent = new Intent(context, JuegoAgregarActivity.class);
+//                intent.putExtra(JuegoAgregarActivityFragment.ARG_ITEM_ID, juego.getId());
+//
+//                context.startActivity(intent);
             }
         });
 
@@ -67,7 +73,7 @@ public class MainActivity extends AppCompatActivity
         DatabaseManager.initializeInstance(new JocsAdminDbHelper(this.getApplicationContext()));
 
         //TODO: SACAR ESTO!!!!!
-        DatabaseManager.getInstance().restart();
+//        DatabaseManager.getInstance().restart();
 
         List<Juego> juegos = DatabaseManager.getInstance().getAllJuegos();
         JuegoAdapter ca = new JuegoAdapter(juegos);

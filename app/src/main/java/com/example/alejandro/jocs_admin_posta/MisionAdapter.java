@@ -59,7 +59,7 @@ public class MisionAdapter extends RecyclerView.Adapter<MisionAdapter.MisionView
             misionViewHolder.mView.setBackgroundColor(Color.WHITE);
 
         misionViewHolder.vTitulo.setText(m.getTitulo());
-        misionViewHolder.vDescripcion.setText(m.getDescripcion());
+//        misionViewHolder.vDescripcion.setText(m.getDescripcion());
         misionViewHolder.vPuntuacion.setText(m.getPuntuacion());
 
 //        misionViewHolder.vFotoId.setImageResource(p.getFotoId());
@@ -88,7 +88,7 @@ public class MisionAdapter extends RecyclerView.Adapter<MisionAdapter.MisionView
             super(v);
             mView = v;
             vTitulo = (TextView) v.findViewById(R.id.mision_titulo);
-            vDescripcion = (TextView) v.findViewById(R.id.mision_descripcion);
+//            vDescripcion = (TextView) v.findViewById(R.id.mision_descripcion);
             vPuntuacion = (TextView) v.findViewById(R.id.mision_puntuacion);
 
 //            mImageView = (ImageView) view.findViewById(R.id.avatar);

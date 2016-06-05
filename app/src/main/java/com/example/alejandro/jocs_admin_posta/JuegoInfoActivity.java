@@ -1,8 +1,6 @@
 package com.example.alejandro.jocs_admin_posta;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.example.alejandro.jocs_admin_posta.model.Juego;
 
@@ -62,15 +59,6 @@ public class JuegoInfoActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
     }
 
 
@@ -114,13 +102,13 @@ public class JuegoInfoActivity extends AppCompatActivity {
                 case 0:
                     return JuegoInfoFragment.newInstance(j);
                 case 1:
-                    //return JuegoPersonajes
+                    //Personajes
                     return JuegoPersonajesFragment.newInstance(j);
                 case 2:
-                    //return JuegoObjetos
+                    //Objetos
                     return JuegoObjetosFragment.newInstance(j);
                 case 3:
-                    //return JuegoMisiones
+                    //Misiones
                     return JuegoMisionesFragment.newInstance(j);
                 default:
                     return JuegoInfoFragment.newInstance(j);

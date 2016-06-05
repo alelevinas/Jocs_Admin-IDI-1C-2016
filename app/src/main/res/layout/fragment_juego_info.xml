@@ -17,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
+            android:minHeight="@dimen/list_item_avatar_size"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -24,15 +25,16 @@
                 android:id="@+id/juego_foto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/imagen_del_juego"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="pin" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/juego_info_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -50,49 +52,108 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:textSize="26sp" />
+                android:textSize="40sp" />
 
             <TextView
-                android:id="@+id/txtEstudio"
+                android:id="@+id/txtEstudiotit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/titulo"
                 android:layout_marginTop="5dp"
                 android:gravity="center_vertical"
-                android:textSize="10sp" />
+                android:text="@string/estudio"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/txtEstudio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/txtEstudiotit"
+                android:layout_alignStart="@id/txtAnoPublicacion"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/txtEstudiotit"
+                android:gravity="center_vertical|right"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/txtPlataformatit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@id/txtEstudiotit"
+                android:layout_below="@id/txtEstudiotit"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                android:text="@string/plataforma"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/txtPlataforma"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@id/txtEstudio"
+                android:layout_alignBaseline="@id/txtPlataformatit"
+                android:layout_alignStart="@id/txtAnoPublicacion"
                 android:layout_below="@id/txtEstudio"
                 android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/txtPlataformatit"
                 android:gravity="center_vertical"
-                android:textSize="10sp" />
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/txtAnoPublicacionTit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@id/txtEstudiotit"
+                android:layout_below="@id/txtPlataformatit"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                android:text="@string/a_o_de_publicaci_n"
+                android:textSize="20sp" />
+
 
             <TextView
                 android:id="@+id/txtAnoPublicacion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignStart="@id/txtEstudio"
+                android:layout_alignBaseline="@id/txtAnoPublicacionTit"
                 android:layout_below="@id/txtPlataforma"
                 android:layout_marginTop="5dp"
-                android:textSize="10sp" />
+                android:layout_toRightOf="@id/txtAnoPublicacionTit"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/txtCursoTit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@id/txtEstudiotit"
+                android:layout_below="@id/txtAnoPublicacionTit"
+                android:layout_marginTop="5dp"
+                android:text="@string/estado"
+                android:textSize="20sp" />
+
 
             <TextView
                 android:id="@+id/txtCurso"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@id/txtEstudio"
-                android:layout_below="@id/txtAnoPublicacion"
+                android:layout_alignBaseline="@id/txtCursoTit"
+                android:layout_alignStart="@id/txtAnoPublicacion"
                 android:layout_marginTop="5dp"
-                android:textSize="10sp" />
+                android:layout_toRightOf="@id/txtCursoTit"
+                android:textSize="20sp" />
 
 
         </RelativeLayout>
 
     </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/editar_juego_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|start"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@android:drawable/ic_menu_edit"
+        app:layout_anchor="@+id/juego_info_container"
+        app:layout_anchorGravity="top|end" />
 
 </android.support.design.widget.CoordinatorLayout>
