@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -38,6 +39,10 @@ public class PersonajeAgregarActivity extends AppCompatActivity {
 
     private int ano_pub = -1;
     private long juego_id;
+    private EditText mNombre;
+    private EditText mRaza;
+    private EditText mNivel;
+    private Personaje personaje_nuevo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,42 +51,24 @@ public class PersonajeAgregarActivity extends AppCompatActivity {
 
         juego_id = (long) getIntent().getLongExtra(ARG_JUEGO, -1);
 
-        final Personaje personaje_nuevo = new Personaje();
+        personaje_nuevo = new Personaje();
 
-        final EditText mNombre = (EditText) findViewById(R.id.editNombre);
-        final EditText mRaza = (EditText) findViewById(R.id.editRaza);
-        final EditText mNivel = (EditText) findViewById(R.id.editNivel);
+        mNombre = (EditText) findViewById(R.id.editNombre);
+        mRaza = (EditText) findViewById(R.id.editRaza);
+        mNivel = (EditText) findViewById(R.id.editNivel);
 
         mImagen = (ImageButton) findViewById(R.id.imagenPersonaje);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_editar_personaje);
         toolbar.setTitle("Agregar Personaje ");
-        toolbar.setNavigationIcon(R.drawable.ic_done_black_24dp);
-        toolbar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                byte[] bitmapdata;
-                if (nueva != null) {
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    if (nueva.compress(Bitmap.CompressFormat.PNG, 100, stream))
-                        Log.e("DESDE EL EDIT PERSONAJE", "NO SE PUDO SACAR LOS BITS!!!!");
-                    bitmapdata = stream.toByteArray();
-                } else {
-                    Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_juego);
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    if (bMap.compress(Bitmap.CompressFormat.PNG, 50, stream))
-                        Log.e("BITMAPPPP", "NO SE PUDO SACAR LOS BITS!!!!");
-                    bitmapdata = stream.toByteArray();
-                }
-
-                Log.e("AGREGAR PERSONAJE", "-----------APRETE EL AGREGAR");
-                DatabaseManager.getInstance().agregarPersonaje(setearPersonaje(personaje_nuevo, mNombre.getText().toString(), mRaza.getText().toString(),
-                        mNivel.getText().toString(), bitmapdata), juego_id);
-
-                onBackPressed();
-            }
-        });
         setSupportActionBar(toolbar);
+
+        // Show the Up button in the action bar.
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_done_black_24dp);
+        }
 
         mNombre.setHint("Nombre");
         mRaza.setHint("Raza");
@@ -128,6 +115,29 @@ public class PersonajeAgregarActivity extends AppCompatActivity {
         if (id == R.id.action_descartar) {
             onBackPressed();
             return true;
+        }
+
+        /*GUARDAR EL NUEVO OBJETO Y VOLVER*/
+        if (id == android.R.id.home) {
+            byte[] bitmapdata;
+            if (nueva != null) {
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                if (nueva.compress(Bitmap.CompressFormat.PNG, 100, stream))
+                    Log.e("DESDE EL EDIT PERSONAJE", "NO SE PUDO SACAR LOS BITS!!!!");
+                bitmapdata = stream.toByteArray();
+            } else {
+                Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_juego);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                if (bMap.compress(Bitmap.CompressFormat.PNG, 50, stream))
+                    Log.e("BITMAPPPP", "NO SE PUDO SACAR LOS BITS!!!!");
+                bitmapdata = stream.toByteArray();
+            }
+
+            Log.e("AGREGAR PERSONAJE", "-----------APRETE EL AGREGAR");
+            DatabaseManager.getInstance().agregarPersonaje(setearPersonaje(personaje_nuevo, mNombre.getText().toString(), mRaza.getText().toString(),
+                    mNivel.getText().toString(), bitmapdata), juego_id);
+
+            onBackPressed();
         }
 
         return super.onOptionsItemSelected(item);

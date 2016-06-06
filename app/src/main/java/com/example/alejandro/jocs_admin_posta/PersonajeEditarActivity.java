@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -35,64 +36,35 @@ public class PersonajeEditarActivity extends AppCompatActivity {
     private String picturePath = "";
     private ImageButton mImagen;
     private Bitmap nueva = null;
+    private long personaje_id;
+    private EditText mNombre;
+    private EditText mRaza;
+    private EditText mNivel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personaje_editar);
 
-        final long personaje_id = getIntent().getLongExtra(EXTRA_PERSONAJE, 0);
+        personaje_id = getIntent().getLongExtra(EXTRA_PERSONAJE, 0);
         final Personaje personaje = DatabaseManager.getInstance().getPersonaje(personaje_id);
 
-        final EditText mNombre = (EditText) findViewById(R.id.editNombre);
-        final EditText mRaza = (EditText) findViewById(R.id.editRaza);
-        final EditText mNivel = (EditText) findViewById(R.id.editNivel);
+        mNombre = (EditText) findViewById(R.id.editNombre);
+        mRaza = (EditText) findViewById(R.id.editRaza);
+        mNivel = (EditText) findViewById(R.id.editNivel);
 
         mImagen = (ImageButton) findViewById(R.id.imagenPersonaje);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_editar_personaje);
         toolbar.setTitle("Editar " + personaje.getNombre());
-        toolbar.setNavigationIcon(R.drawable.ic_done_black_24dp);
-        toolbar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                byte[] bitmapdata = new byte[]{0, 1, 0};
-                /*if (nueva != null) {
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    if (nueva.compress(Bitmap.CompressFormat.PNG, 100, stream))
-                        Log.e("DESDE EL EDITAR JUEGO", "NO SE PUDO SACAR LOS BITS!!!!");
-                    bitmapdata = stream.toByteArray();
-                } else
-                    bitmapdata = personaje.getLaFoto();*/
-
-
-                Log.e("JUEGO EDITAR ACTIVITY", "APRETE EL UPDATEEE " + " APRETE EL UPDATEEE");
-                DatabaseManager.getInstance().updatePersonaje(personaje_id, mNombre.getText().toString(), mRaza.getText().toString(),
-                        mNivel.getText().toString(), bitmapdata);
-                onBackPressed();
-            }
-        });
-        /*toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                byte[] bitmapdata;
-                if (nueva != null) {
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    if (nueva.compress(Bitmap.CompressFormat.PNG, 100, stream))
-                        Log.e("DESDE EL EDITAR JUEGO", "NO SE PUDO SACAR LOS BITS!!!!");
-                    bitmapdata = stream.toByteArray();
-                } else
-                    bitmapdata = personaje.getLaFoto();
-
-                Log.e("JUEGO EDITAR ACTIVITY", "APRETE EL UPDATEEE " + " APRETE EL UPDATEEE");
-                DatabaseManager.getInstance().updatePersonaje(personaje_id, mTitulo.getText().toString(), mRaza.getText().toString(),
-                        mNivel.getText().toString(), mAnoPublicacion.getText().toString(), estado_seleccionado, bitmapdata);
-                onBackPressed();
-                onBackPressed();
-                finish();
-            }
-        });*/
         setSupportActionBar(toolbar);
+
+        // Show the Up button in the action bar.
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_done_black_24dp);
+        }
 
 
         mNombre.setText(personaje.getNombre());
@@ -140,6 +112,24 @@ public class PersonajeEditarActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_descartar_cambios) {
+            onBackPressed();
+        }
+
+        /*GUARDAR EL NUEVO PERSONAJE EDITADO Y VOLVER*/
+        if (id == android.R.id.home) {
+            byte[] bitmapdata = new byte[]{0, 1, 0};
+                /*if (nueva != null) {
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    if (nueva.compress(Bitmap.CompressFormat.PNG, 100, stream))
+                        Log.e("DESDE EL EDITAR JUEGO", "NO SE PUDO SACAR LOS BITS!!!!");
+                    bitmapdata = stream.toByteArray();
+                } else
+                    bitmapdata = personaje.getLaFoto();*/
+
+
+            Log.e("JUEGO EDITAR ACTIVITY", "APRETE EL UPDATEEE " + " APRETE EL UPDATEEE");
+            DatabaseManager.getInstance().updatePersonaje(personaje_id, mNombre.getText().toString(), mRaza.getText().toString(),
+                    mNivel.getText().toString(), bitmapdata);
             onBackPressed();
         }
 

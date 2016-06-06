@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -41,67 +42,39 @@ public class JuegoEditarActivity extends AppCompatActivity implements AdapterVie
     private String picturePath = "";
     private ImageButton mImagen;
     private Bitmap nueva = null;
+    private EditText mTitulo;
+    private EditText mPlataforma;
+    private EditText mEstudio;
+    private EditText mAnoPublicacion;
+    private Juego juego;
+    private long juego_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_juego_editar);
 
-        final long juego_id = getIntent().getLongExtra(ARG_JUEGO_ID, 0);
-        final Juego juego = DatabaseManager.getInstance().getJuego(juego_id);
+        juego_id = getIntent().getLongExtra(ARG_JUEGO_ID, 0);
+        juego = DatabaseManager.getInstance().getJuego(juego_id);
 
-        final EditText mTitulo = (EditText) findViewById(R.id.editTitulo);
-        final EditText mPlataforma = (EditText) findViewById(R.id.editPlataforma);
-        final EditText mEstudio = (EditText) findViewById(R.id.editEstudio);
-        final EditText mAnoPublicacion = (EditText) findViewById(R.id.editAnoPublicacion);
+        mTitulo = (EditText) findViewById(R.id.editTitulo);
+        mPlataforma = (EditText) findViewById(R.id.editPlataforma);
+        mEstudio = (EditText) findViewById(R.id.editEstudio);
+        mAnoPublicacion = (EditText) findViewById(R.id.editAnoPublicacion);
 
         mImagen = (ImageButton) findViewById(R.id.imagenJuego);
         final Spinner mCurso = (Spinner) findViewById(R.id.spinnerCurso);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_editar_juego);
         toolbar.setTitle("Editar " + juego.getNombre());
-        toolbar.setNavigationIcon(R.drawable.ic_done_black_24dp);
-        toolbar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                byte[] bitmapdata;
-                if (nueva != null) {
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    if (nueva.compress(Bitmap.CompressFormat.PNG, 100, stream))
-                        Log.e("DESDE EL EDITAR JUEGO", "NO SE PUDO SACAR LOS BITS!!!!");
-                    bitmapdata = stream.toByteArray();
-                } else
-                    bitmapdata = juego.getLaFoto();
-
-
-                Log.e("JUEGO EDITAR ACTIVITY", "APRETE EL UPDATEEE " + " APRETE EL UPDATEEE");
-                DatabaseManager.getInstance().updateJuego(juego_id, mTitulo.getText().toString(), mPlataforma.getText().toString(),
-                        mEstudio.getText().toString(), mAnoPublicacion.getText().toString(), estado_seleccionado, bitmapdata);
-                onBackPressed();
-            }
-        });
-        /*toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                byte[] bitmapdata;
-                if (nueva != null) {
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    if (nueva.compress(Bitmap.CompressFormat.PNG, 100, stream))
-                        Log.e("DESDE EL EDITAR JUEGO", "NO SE PUDO SACAR LOS BITS!!!!");
-                    bitmapdata = stream.toByteArray();
-                } else
-                    bitmapdata = juego.getLaFoto();
-
-                Log.e("JUEGO EDITAR ACTIVITY", "APRETE EL UPDATEEE " + " APRETE EL UPDATEEE");
-                DatabaseManager.getInstance().updateJuego(juego_id, mTitulo.getText().toString(), mPlataforma.getText().toString(),
-                        mEstudio.getText().toString(), mAnoPublicacion.getText().toString(), estado_seleccionado, bitmapdata);
-                onBackPressed();
-                onBackPressed();
-                finish();
-            }
-        });*/
         setSupportActionBar(toolbar);
 
+        // Show the Up button in the action bar.
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_done_black_24dp);
+        }
 
         mTitulo.setText(juego.getNombre());
         mPlataforma.setText(juego.getPlataforma());
@@ -171,6 +144,24 @@ public class JuegoEditarActivity extends AppCompatActivity implements AdapterVie
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_descartar_cambios) {
+            onBackPressed();
+        }
+
+        /*GUARDAR EL NUEVO JUEGO EDITADO Y VOLVER*/
+        if (id == android.R.id.home) {
+            byte[] bitmapdata;
+            if (nueva != null) {
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                if (nueva.compress(Bitmap.CompressFormat.PNG, 100, stream))
+                    Log.e("DESDE EL EDITAR JUEGO", "NO SE PUDO SACAR LOS BITS!!!!");
+                bitmapdata = stream.toByteArray();
+            } else
+                bitmapdata = juego.getLaFoto();
+
+
+            Log.e("JUEGO EDITAR ACTIVITY", "APRETE EL UPDATEEE " + " APRETE EL UPDATEEE");
+            DatabaseManager.getInstance().updateJuego(juego_id, mTitulo.getText().toString(), mPlataforma.getText().toString(),
+                    mEstudio.getText().toString(), mAnoPublicacion.getText().toString(), estado_seleccionado, bitmapdata);
             onBackPressed();
         }
 

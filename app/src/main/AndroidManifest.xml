@@ -49,11 +49,24 @@
         <activity
             android:name=".ObjetoEditarActivity"
             android:label="@string/title_activity_objeto_editar"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ObjetoAgregarActivity"
             android:label="@string/title_activity_objeto_agregar"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MisionListActivity"
+            android:label="@string/title_mision_list"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".MisionInfoActivity"
+            android:label="@string/title_mision_detail"
+            android:parentActivityName=".MisionListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.alejandro.jocs_admin_posta.MisionListActivity" />
+        </activity>
     </application>
 
 </manifest>

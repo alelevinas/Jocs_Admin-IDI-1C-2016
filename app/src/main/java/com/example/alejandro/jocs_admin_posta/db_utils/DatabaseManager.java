@@ -432,6 +432,28 @@ public class DatabaseManager {
         return mision_id;
     }
 
+    public Mision getMision(long id) {
+        String selectQuery = "SELECT  * FROM " + MisionEntry.TABLE_NAME +
+                " WHERE " + MisionEntry.COLUMN_KEY_MISION_ID + " = " + id;
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through row and adding to list
+        Mision mision = new Mision();
+        if (c.moveToFirst()) {
+            do {
+                mision.setId(c.getLong(c.getColumnIndex(MisionEntry.COLUMN_KEY_MISION_ID)));
+                mision.setTitulo(c.getString(c.getColumnIndex(MisionEntry.COLUMN_TITULO)));
+                mision.setDescripcion(c.getString(c.getColumnIndex(MisionEntry.COLUMN_DESCRIPCION)));
+                mision.setPuntuacion(c.getString(c.getColumnIndex(MisionEntry.COLUMN_PUNTUACION)));
+                mision.setJuegoId(c.getLong(c.getColumnIndex(MisionEntry.COLUMN_KEY_JUEGO_ID)));
+            } while (c.moveToNext());
+        }
+        return mision;
+    }
+
 
     /**
      * getting all misions

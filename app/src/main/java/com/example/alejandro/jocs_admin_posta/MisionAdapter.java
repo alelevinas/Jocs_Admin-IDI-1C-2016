@@ -2,14 +2,15 @@ package com.example.alejandro.jocs_admin_posta;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.alejandro.jocs_admin_posta.model.Mision;
 
@@ -74,7 +75,7 @@ public class MisionAdapter extends RecyclerView.Adapter<MisionAdapter.MisionView
 
     public static class MisionViewHolder extends RecyclerView.ViewHolder {
 
-        public static final String EXTRA_MISION = "mision";
+        public static final String EXTRA_MISION = "mision_id";
         public final View mView;
         public String mBoundString;
         protected Mision currentMision;
@@ -99,15 +100,14 @@ public class MisionAdapter extends RecyclerView.Adapter<MisionAdapter.MisionView
                 @Override
                 public void onClick(View v) {
                     //startActivity mision (currentMision) bla bla
-                    Toast.makeText(v.getContext(), currentMision.getTitulo(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(v.getContext(), currentMision.getTitulo(), Toast.LENGTH_SHORT).show();
 
-                    /*
                     Intent intent = new Intent(v.getContext(), MisionInfoActivity.class);
                     Bundle b = new Bundle();
-                    b.putSerializable(EXTRA_MISION, currentMision);
+                    b.putLong(EXTRA_MISION, currentMision.getId());
                     intent.putExtras(b);
                     v.getContext().startActivity(intent);
-                    */
+
                 }
             });
         }

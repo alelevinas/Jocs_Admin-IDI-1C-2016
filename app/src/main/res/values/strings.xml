@@ -121,4 +121,6 @@
         <item>Iniciado</item>
         <item>Terminado</item>
     </string-array>
+    <string name="title_mision_list">Misiones</string>
+    <string name="title_mision_detail">Mision Detail</string>
 </resources>

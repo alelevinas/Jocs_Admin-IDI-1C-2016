@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -40,50 +41,37 @@ public class JuegoAgregarActivity extends AppCompatActivity implements AdapterVi
     private Bitmap nueva = null;
 
     private int ano_pub = -1;
+    private Juego juego_nuevo;
+    private EditText mTitulo;
+    private EditText mPlataforma;
+    private EditText mEstudio;
+    private EditText mAnoPublicacion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_juego_editar);
 
-        final Juego juego_nuevo = new Juego();
+        juego_nuevo = new Juego();
 
-        final EditText mTitulo = (EditText) findViewById(R.id.editTitulo);
-        final EditText mPlataforma = (EditText) findViewById(R.id.editPlataforma);
-        final EditText mEstudio = (EditText) findViewById(R.id.editEstudio);
-        final EditText mAnoPublicacion = (EditText) findViewById(R.id.editAnoPublicacion);
+        mTitulo = (EditText) findViewById(R.id.editTitulo);
+        mPlataforma = (EditText) findViewById(R.id.editPlataforma);
+        mEstudio = (EditText) findViewById(R.id.editEstudio);
+        mAnoPublicacion = (EditText) findViewById(R.id.editAnoPublicacion);
 
         mImagen = (ImageButton) findViewById(R.id.imagenJuego);
         final Spinner mCurso = (Spinner) findViewById(R.id.spinnerCurso);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_editar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_editar_juego);
         toolbar.setTitle("Agregar Juego ");
-        toolbar.setNavigationIcon(R.drawable.ic_done_black_24dp);
-        toolbar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                byte[] bitmapdata;
-                if (nueva != null) {
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    if (nueva.compress(Bitmap.CompressFormat.PNG, 100, stream))
-                        Log.e("DESDE EL EDITAR JUEGO", "NO SE PUDO SACAR LOS BITS!!!!");
-                    bitmapdata = stream.toByteArray();
-                } else {
-                    Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_juego);
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    if (bMap.compress(Bitmap.CompressFormat.PNG, 50, stream))
-                        Log.e("BITMAPPPP", "NO SE PUDO SACAR LOS BITS!!!!");
-                    bitmapdata = stream.toByteArray();
-                }
-
-                Log.e("AGREGAR JUEGO", "-----------APRETE EL AGREGAR");
-                DatabaseManager.getInstance().agregarJuego(setearJuego(juego_nuevo, mTitulo.getText().toString(), mPlataforma.getText().toString(),
-                        mEstudio.getText().toString(), mAnoPublicacion.getText().toString(), estado_seleccionado, bitmapdata));
-
-                onBackPressed();
-            }
-        });
         setSupportActionBar(toolbar);
+
+        // Show the Up button in the action bar.
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_done_black_24dp);
+        }
 
         mTitulo.setHint("Nombre");
         mPlataforma.setHint("Plataforma");
@@ -163,6 +151,29 @@ public class JuegoAgregarActivity extends AppCompatActivity implements AdapterVi
         if (id == R.id.action_descartar) {
             onBackPressed();
             return true;
+        }
+
+        /*GUARDAR EL NUEVO JUEGO EDITADO Y VOLVER*/
+        if (id == android.R.id.home) {
+            byte[] bitmapdata;
+            if (nueva != null) {
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                if (nueva.compress(Bitmap.CompressFormat.PNG, 100, stream))
+                    Log.e("DESDE EL EDITAR JUEGO", "NO SE PUDO SACAR LOS BITS!!!!");
+                bitmapdata = stream.toByteArray();
+            } else {
+                Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_juego);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                if (bMap.compress(Bitmap.CompressFormat.PNG, 50, stream))
+                    Log.e("BITMAPPPP", "NO SE PUDO SACAR LOS BITS!!!!");
+                bitmapdata = stream.toByteArray();
+            }
+
+            Log.e("AGREGAR JUEGO", "-----------APRETE EL AGREGAR");
+            DatabaseManager.getInstance().agregarJuego(setearJuego(juego_nuevo, mTitulo.getText().toString(), mPlataforma.getText().toString(),
+                    mEstudio.getText().toString(), mAnoPublicacion.getText().toString(), estado_seleccionado, bitmapdata));
+
+            onBackPressed();
         }
 
         return super.onOptionsItemSelected(item);
