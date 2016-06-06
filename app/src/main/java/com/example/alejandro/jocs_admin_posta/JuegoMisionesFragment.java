@@ -1,6 +1,9 @@
 package com.example.alejandro.jocs_admin_posta;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +26,7 @@ public class JuegoMisionesFragment extends Fragment {
      * The fragment argument representing the section number for this
      * fragment.
      */
-    private static final String ARG_JUEGO = "juego";
+    public static final String ARG_JUEGO = "juego_id";
     private MisionAdapter misionAdapter;
     private long juego_id;
     private RecyclerView recList;
@@ -54,6 +57,17 @@ public class JuegoMisionesFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_juego_misiones, container, false);
         juego_id = (long) getArguments().getLong(ARG_JUEGO);
 
+        /*FLOATING ACTION BUTTON*/
+        FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.fab_agregar_mision);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = view.getContext();
+                Intent intent = new Intent(context, MisionAgregarActivity.class);
+                intent.putExtra(ARG_JUEGO, juego_id);
+                context.startActivity(intent);
+            }
+        });
 
         /*CARDS*/
         recList = (RecyclerView) v.findViewById(R.id.misiones_texts);

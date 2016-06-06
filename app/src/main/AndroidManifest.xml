@@ -57,11 +57,14 @@
         <activity
             android:name=".MisionInfoActivity"
             android:label="@string/title_mision_detail"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".MisionEditarActivity"
             android:label="@string/title_activity_mision_editar"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MisionAgregarActivity"
+            android:label="@string/title_activity_mision_agregar"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

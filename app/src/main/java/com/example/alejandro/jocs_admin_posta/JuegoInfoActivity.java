@@ -158,7 +158,7 @@ public class JuegoInfoActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Información general";
+                    return "Info";
                 case 1:
                     return "Personajes";
                 case 2:

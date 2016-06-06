@@ -130,4 +130,5 @@
     <string name="action_eliminar_mision">Eliminar misión</string>
     <string name="mensaje_eliminar_mision">¿Esta seguro que quiere eliminar esta misión?</string>
     <string name="title_activity_mision_editar">Editar mision</string>
+    <string name="title_activity_mision_agregar">Agregar misión</string>
 </resources>
