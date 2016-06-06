@@ -2,6 +2,7 @@ package com.example.alejandro.jocs_admin_posta;
 
 import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -99,7 +101,7 @@ public class PersonajeEditarActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_editar, menu);
+        getMenuInflater().inflate(R.menu.menu_editar_personaje, menu);
         return true;
     }
 
@@ -113,6 +115,12 @@ public class PersonajeEditarActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_descartar_cambios) {
             onBackPressed();
+            return true;
+        }
+
+        if (id == R.id.action_eliminar) {
+            dialogSeguro();
+            return true;
         }
 
         /*GUARDAR EL NUEVO PERSONAJE EDITADO Y VOLVER*/
@@ -250,4 +258,23 @@ public class PersonajeEditarActivity extends AppCompatActivity {
                 }
         }
     }*/
+
+    public void dialogSeguro() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.action_eliminar_personaje)
+                .setMessage(R.string.mensaje_eliminar_personaje)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        DatabaseManager.getInstance().eliminarPersonaje(personaje_id);
+                        onBackPressed();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
 }

@@ -91,34 +91,6 @@ public class JuegoInfoActivity extends AppCompatActivity {
     }
 
     public void dialogSeguro() {
-        /*final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.dialog_box_eliminar_juego);
-        dialog.setTitle("Alert Dialog View");
-        Button btnExit = (Button) dialog.findViewById(R.id.btnCancelar);
-        btnExit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        dialog.findViewById(R.id.btnAceptar)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-        dialog.findViewById(R.id.btnCancelar)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-
-        // show dialog on screen
-        dialog.show();*/
-
         new AlertDialog.Builder(this)
                 .setTitle(R.string.action_eliminar_juego)
                 .setMessage(R.string.mensaje_eliminar_juego)

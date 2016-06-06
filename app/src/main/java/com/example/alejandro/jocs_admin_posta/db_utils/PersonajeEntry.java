@@ -28,5 +28,8 @@ public class PersonajeEntry implements BaseColumns {
 
     public static final String DELETE_PERSONAJES_DE_JUEGO = "DELETE FROM " + TABLE_NAME +
             " WHERE " + COLUMN_KEY_JUEGO_ID + " = ?";
+
+    public static final String DELETE_PERSONAJE = "DELETE FROM " + TABLE_NAME +
+            " WHERE " + COLUMN_KEY_PERSONAJE_ID + " = ?";
     ;
 }

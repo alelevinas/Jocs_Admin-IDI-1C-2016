@@ -1,7 +1,9 @@
 package com.example.alejandro.jocs_admin_posta;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -47,7 +49,7 @@ public class ObjetoEditarActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_editar, menu);
+        getMenuInflater().inflate(R.menu.menu_editar_objeto, menu);
         return true;
     }
 
@@ -62,6 +64,12 @@ public class ObjetoEditarActivity extends AppCompatActivity {
         if (id == R.id.action_descartar_cambios) {
             onBackPressed();
         }
+
+        if (id == R.id.action_eliminar) {
+            dialogSeguro();
+            return true;
+        }
+
         /*GUARDAR EL NUEVO OBJETO Y VOLVER*/
         if (id == android.R.id.home) {
             Log.e("OBJETO EDITAR ACTIVITY", "APRETE EL UPDATEEE " + " APRETE EL UPDATEEE");
@@ -71,5 +79,24 @@ public class ObjetoEditarActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void dialogSeguro() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.action_eliminar_objeto)
+                .setMessage(R.string.mensaje_eliminar_objeto)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        DatabaseManager.getInstance().eliminarObjeto(objeto_id);
+                        onBackPressed();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }

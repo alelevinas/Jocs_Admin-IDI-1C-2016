@@ -123,4 +123,8 @@
     </string-array>
     <string name="title_mision_list">Misiones</string>
     <string name="title_mision_detail">Mision Detail</string>
+    <string name="action_eliminar_personaje">Eliminar</string>
+    <string name="mensaje_eliminar_personaje">¿Esta seguro que quiere eliminar este personaje?</string>
+    <string name="action_eliminar_objeto">Eliminar objeto</string>
+    <string name="mensaje_eliminar_objeto">¿Esta seguro que quiere eliminar este objeto?</string>
 </resources>

@@ -307,6 +307,16 @@ public class DatabaseManager {
         db.update(PersonajeEntry.TABLE_NAME, values, PersonajeEntry.COLUMN_KEY_PERSONAJE_ID + " = " + personaje_id, null);
     }
 
+    public void eliminarPersonaje(long personaje_id) {
+        SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+
+        String sql = PersonajeEntry.DELETE_PERSONAJE;
+        SQLiteStatement deleteStmt = db.compileStatement(sql);
+        deleteStmt.clearBindings();
+        deleteStmt.bindString(1, "" + personaje_id);
+        deleteStmt.executeUpdateDelete();
+    }
+
 // ------------------------ "Objetos" table methods ----------------//
 
     public long agregarObjeto(Objeto objeto, long juego_id) {
@@ -405,6 +415,16 @@ public class DatabaseManager {
         values.put(ObjetoEntry.COLUMN_NIVEL, nivel);
 
         db.update(ObjetoEntry.TABLE_NAME, values, ObjetoEntry.COLUMN_KEY_OBJETO_ID + " = " + objeto_id, null);
+    }
+
+    public void eliminarObjeto(long objeto_id) {
+        SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+
+        String sql = ObjetoEntry.DELETE_OBJETO;
+        SQLiteStatement deleteStmt = db.compileStatement(sql);
+        deleteStmt.clearBindings();
+        deleteStmt.bindString(1, "" + objeto_id);
+        deleteStmt.executeUpdateDelete();
     }
 
 

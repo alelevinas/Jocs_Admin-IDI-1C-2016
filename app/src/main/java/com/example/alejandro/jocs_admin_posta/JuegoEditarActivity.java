@@ -131,7 +131,7 @@ public class JuegoEditarActivity extends AppCompatActivity implements AdapterVie
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_editar, menu);
+        getMenuInflater().inflate(R.menu.menu_editar_juego, menu);
         return true;
     }
 

@@ -23,5 +23,8 @@ public class ObjetoEntry implements BaseColumns {
 
     public static final String DELETE_OBJETOS_DE_JUEGO = "DELETE FROM " + TABLE_NAME +
             " WHERE " + COLUMN_KEY_JUEGO_ID + " = ?";
+
+    public static final String DELETE_OBJETO = "DELETE FROM " + TABLE_NAME +
+            " WHERE " + COLUMN_KEY_OBJETO_ID + " = ?";
     ;
 }

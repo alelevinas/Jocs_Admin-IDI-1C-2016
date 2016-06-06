@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.alejandro.jocs_admin_posta.JuegoEditarActivity">
+
     <item
         android:id="@+id/action_descartar"
         android:orderInCategory="100"
