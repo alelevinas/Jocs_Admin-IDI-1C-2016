@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +13,6 @@ import android.widget.TextView;
 import com.example.alejandro.jocs_admin_posta.db_utils.DatabaseManager;
 import com.example.alejandro.jocs_admin_posta.model.Mision;
 
-/**
- * A fragment representing a single Mision detail screen.
- * This fragment is either contained in a {@link MisionListActivity}
- * in two-pane mode (on tablets) or a {@link MisionInfoActivity}
- * on handsets.
- */
 public class MisionInfoFragment extends Fragment {
     /**
      * The fragment argument representing the item ID that this fragment
@@ -28,6 +23,8 @@ public class MisionInfoFragment extends Fragment {
      * The dummy content this fragment is presenting.
      */
     private Mision mision;
+    private CollapsingToolbarLayout appBarLayout;
+    private TextView mDescripcionYPunt;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -47,7 +44,7 @@ public class MisionInfoFragment extends Fragment {
             mision = DatabaseManager.getInstance().getMision(getArguments().getLong(MisionAdapter.MisionViewHolder.EXTRA_MISION));
 
             Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+            appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
                 appBarLayout.setTitle(mision.getTitulo());
             }
@@ -61,9 +58,21 @@ public class MisionInfoFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mision != null) {
-            ((TextView) rootView.findViewById(R.id.mision_detail)).setText(mision.getDescripcion() + "\nPuntuación: " + mision.getPuntuacion());
+            mDescripcionYPunt = (TextView) rootView.findViewById(R.id.mision_detail);
+            mDescripcionYPunt.setText(mision.getDescripcion() + "\n\nPuntuación: " + mision.getPuntuacion());
         }
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("JUEGO MISIONES FRAG", "ON RESUMEEEE");
+        mision = DatabaseManager.getInstance().getMision(mision.getId());
+        if (mision.getTitulo() != null) {
+            appBarLayout.setTitle(mision.getTitulo());
+            mDescripcionYPunt.setText(mision.getDescripcion() + "\n\nPuntuación: " + mision.getPuntuacion());
+        }
     }
 }

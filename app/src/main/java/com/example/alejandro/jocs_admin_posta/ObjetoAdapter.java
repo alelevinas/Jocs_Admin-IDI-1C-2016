@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.alejandro.jocs_admin_posta.model.Objeto;
 
@@ -90,7 +89,7 @@ public class ObjetoAdapter extends RecyclerView.Adapter<ObjetoAdapter.ObjetoView
                 @Override
                 public void onClick(View v) {
                     //startActivity objeto (currentObjeto) bla bla
-                    Toast.makeText(v.getContext(), currentObjeto.getNombre(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(v.getContext(), currentObjeto.getNombre(), Toast.LENGTH_SHORT).show();
 
 
                     Intent intent = new Intent(v.getContext(), ObjetoEditarActivity.class);

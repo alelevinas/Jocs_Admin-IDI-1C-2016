@@ -127,4 +127,7 @@
     <string name="mensaje_eliminar_personaje">¿Esta seguro que quiere eliminar este personaje?</string>
     <string name="action_eliminar_objeto">Eliminar objeto</string>
     <string name="mensaje_eliminar_objeto">¿Esta seguro que quiere eliminar este objeto?</string>
+    <string name="action_eliminar_mision">Eliminar misión</string>
+    <string name="mensaje_eliminar_mision">¿Esta seguro que quiere eliminar esta misión?</string>
+    <string name="title_activity_mision_editar">Editar mision</string>
 </resources>

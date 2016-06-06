@@ -1,20 +1,21 @@
 package com.example.alejandro.jocs_admin_posta;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
-/**
- * An activity representing a single Mision detail screen. This
- * activity is only used narrow width devices. On tablet-size devices,
- * item details are presented side-by-side with a list of items
- * in a {@link MisionListActivity}.
- */
+import com.example.alejandro.jocs_admin_posta.db_utils.DatabaseManager;
+import com.example.alejandro.jocs_admin_posta.model.Mision;
+
+
 public class MisionInfoActivity extends AppCompatActivity {
+
+    private long id_mision;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,12 +24,17 @@ public class MisionInfoActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_editar_personaje);
+        id_mision = getIntent().getLongExtra(MisionAdapter.MisionViewHolder.EXTRA_MISION, -1);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_editar_mision);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(view.getContext(), MisionEditarActivity.class);
+                Bundle arguments = new Bundle();
+                arguments.putLong(MisionAdapter.MisionViewHolder.EXTRA_MISION, id_mision);
+                intent.putExtras(arguments);
+                startActivity(intent);
             }
         });
 
@@ -45,8 +51,7 @@ public class MisionInfoActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putLong(MisionAdapter.MisionViewHolder.EXTRA_MISION,
-                    getIntent().getLongExtra(MisionAdapter.MisionViewHolder.EXTRA_MISION, -1));
+            arguments.putLong(MisionAdapter.MisionViewHolder.EXTRA_MISION, id_mision);
             MisionInfoFragment fragment = new MisionInfoFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -63,5 +68,17 @@ public class MisionInfoActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("MISION INFO ACT", "ON RESUMEEEE");
+        Mision m = DatabaseManager.getInstance().getMision(id_mision);
+
+        if (m.getTitulo() == null)
+            onBackPressed();
+
+
     }
 }

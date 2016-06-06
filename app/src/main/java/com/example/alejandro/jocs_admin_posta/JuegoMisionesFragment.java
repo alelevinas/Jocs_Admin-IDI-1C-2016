@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,9 @@ public class JuegoMisionesFragment extends Fragment {
      * fragment.
      */
     private static final String ARG_JUEGO = "juego";
+    private MisionAdapter misionAdapter;
+    private long juego_id;
+    private RecyclerView recList;
 
     public JuegoMisionesFragment() {
     }
@@ -48,11 +52,11 @@ public class JuegoMisionesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_juego_misiones, container, false);
-        long juego_id = (long) getArguments().getLong(ARG_JUEGO);
+        juego_id = (long) getArguments().getLong(ARG_JUEGO);
 
 
         /*CARDS*/
-        RecyclerView recList = (RecyclerView) v.findViewById(R.id.misiones_texts);
+        recList = (RecyclerView) v.findViewById(R.id.misiones_texts);
         recList.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(v.getContext()); //nro de columnas
         recList.setLayoutManager(llm);
@@ -62,10 +66,19 @@ public class JuegoMisionesFragment extends Fragment {
 
 //        List<Mision> misions = DatabaseManager.getInstance().getAllMisions();
         List<Mision> misions = DatabaseManager.getInstance().getAllMisionesFromJuego(juego_id);
-        MisionAdapter pa = new MisionAdapter(getActivity(), misions);
-        recList.setAdapter(pa);
+        misionAdapter = new MisionAdapter(getActivity(), misions);
+        recList.setAdapter(misionAdapter);
 
 
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("JUEGO MISIONES FRAG", "ON RESUMEEEE");
+        List<Mision> misions = DatabaseManager.getInstance().getAllMisionesFromJuego(juego_id);
+        misionAdapter = new MisionAdapter(getActivity(), misions);
+        recList.setAdapter(misionAdapter);
     }
 }

@@ -517,6 +517,27 @@ public class DatabaseManager {
         deleteStmt.executeUpdateDelete();
     }
 
+    public void eliminarMision(long mision_id) {
+        SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+
+        String sql = MisionEntry.DELETE_MISION;
+        SQLiteStatement deleteStmt = db.compileStatement(sql);
+        deleteStmt.clearBindings();
+        deleteStmt.bindString(1, "" + mision_id);
+        deleteStmt.executeUpdateDelete();
+    }
+
+    public void updateMision(long mision_id, String titulo, String mDescripcionText, String puntuacion) {
+        SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(MisionEntry.COLUMN_TITULO, titulo);
+        values.put(MisionEntry.COLUMN_DESCRIPCION, mDescripcionText);
+        values.put(MisionEntry.COLUMN_PUNTUACION, puntuacion);
+
+        db.update(MisionEntry.TABLE_NAME, values, MisionEntry.COLUMN_KEY_MISION_ID + " = " + mision_id, null);
+    }
+
     //    ------------------------------- PA POPULAR --------------------------
     public void populateDb(SQLiteDatabase db) {
         agregarSuperMario64(db);
