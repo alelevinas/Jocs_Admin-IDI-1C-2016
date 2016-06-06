@@ -41,10 +41,18 @@
         <activity
             android:name=".PersonajeEditarActivity"
             android:label="@string/title_activity_personaje_editar"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".PersonajeAgregarActivity"
             android:label="@string/title_activity_personaje_agregar"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ObjetoEditarActivity"
+            android:label="@string/title_activity_objeto_editar"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".ObjetoAgregarActivity"
+            android:label="@string/title_activity_objeto_agregar"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

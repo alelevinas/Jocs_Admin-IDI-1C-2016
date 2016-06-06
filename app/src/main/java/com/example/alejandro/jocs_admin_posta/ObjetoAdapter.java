@@ -2,7 +2,9 @@ package com.example.alejandro.jocs_admin_posta;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -61,21 +63,13 @@ public class ObjetoAdapter extends RecyclerView.Adapter<ObjetoAdapter.ObjetoView
         objetoViewHolder.vNombre.setText(p.getNombre());
         objetoViewHolder.vNivel.setText("Nivel: " + p.getNivel());
 
-//        objetoViewHolder.vFotoId.setImageResource(p.getFotoId());
-
-//        Glide.with(objetoViewHolder.mImageView.getContext())
-//                .load(p.getImagen())
-//                .fitCenter()
-//                .into(objetoViewHolder.mImageView);
-
         objetoViewHolder.currentObjeto = p;
     }
 
     public static class ObjetoViewHolder extends RecyclerView.ViewHolder {
 
-        public static final String EXTRA_OBJETO = "objeto";
+        public static final String EXTRA_OBJETO = "objeto_id";
         public final View mView;
-        public String mBoundString;
         protected Objeto currentObjeto;
         protected TextView vNombre;
         protected TextView vNivel;
@@ -98,13 +92,12 @@ public class ObjetoAdapter extends RecyclerView.Adapter<ObjetoAdapter.ObjetoView
                     //startActivity objeto (currentObjeto) bla bla
                     Toast.makeText(v.getContext(), currentObjeto.getNombre(), Toast.LENGTH_SHORT).show();
 
-                    /*
-                    Intent intent = new Intent(v.getContext(), ObjetoInfoActivity.class);
+
+                    Intent intent = new Intent(v.getContext(), ObjetoEditarActivity.class);
                     Bundle b = new Bundle();
-                    b.putSerializable(EXTRA_OBJETO, currentObjeto);
+                    b.putLong(EXTRA_OBJETO, currentObjeto.getId());
                     intent.putExtras(b);
                     v.getContext().startActivity(intent);
-                    */
                 }
             });
         }

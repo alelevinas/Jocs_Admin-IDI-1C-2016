@@ -113,6 +113,8 @@
     <string name="cancelar">Cancelar</string>
     <string name="title_activity_personaje_editar">Editar personaje</string>
     <string name="title_activity_personaje_agregar">Agregar personaje</string>
+    <string name="title_activity_objeto_editar">Editar Objeto</string>
+    <string name="title_activity_objeto_agregar">Agregar objeto</string>
 
     <string-array name="estados_juego">
         <item>No iniciado</item>

@@ -327,7 +327,31 @@ public class DatabaseManager {
 
         objeto.setId(objeto_id);
 
+        Log.e("DATABASE MANAGER", "AGREGANDO OBJETO " + objeto.getNombre() + " en JUEGO: " + juego_id);
+
         return objeto_id;
+    }
+
+    public Objeto getObjeto(long id) {
+        String selectQuery = "SELECT  * FROM " + ObjetoEntry.TABLE_NAME +
+                " WHERE " + ObjetoEntry.COLUMN_KEY_OBJETO_ID + " = " + id;
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+
+        Objeto objeto = new Objeto();
+        if (c.moveToFirst()) {
+            do {
+                objeto.setId(c.getLong(c.getColumnIndex(ObjetoEntry.COLUMN_KEY_OBJETO_ID)));
+                objeto.setNombre(c.getString(c.getColumnIndex(ObjetoEntry.COLUMN_NOMBRE)));
+                objeto.setNivel(c.getString(c.getColumnIndex(ObjetoEntry.COLUMN_NIVEL)));
+                objeto.setJuego_id(c.getLong(c.getColumnIndex(ObjetoEntry.COLUMN_KEY_JUEGO_ID)));
+            } while (c.moveToNext());
+        }
+        return objeto;
     }
 
 
@@ -371,6 +395,16 @@ public class DatabaseManager {
         deleteStmt.clearBindings();
         deleteStmt.bindString(1, "" + id);
         deleteStmt.executeUpdateDelete();
+    }
+
+    public void updateObjeto(long objeto_id, String nombre, String nivel) {
+        SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(ObjetoEntry.COLUMN_NOMBRE, nombre);
+        values.put(ObjetoEntry.COLUMN_NIVEL, nivel);
+
+        db.update(ObjetoEntry.TABLE_NAME, values, ObjetoEntry.COLUMN_KEY_OBJETO_ID + " = " + objeto_id, null);
     }
 
 
@@ -567,7 +601,7 @@ public class DatabaseManager {
 
     private void agregarPersonajes(SQLiteDatabase db, int size, List<Long> juegos_ids) {
         for (long id : juegos_ids) {
-            for (int i = 1; i <= size; i++) {
+            for (int i = 3; i <= size; i++) {
                 this.agregarPersonaje(db, new Personaje("PERSONAJE_" + id + "-" + i, "RAZA_" + id + "-" + i, "NIVEL_" + id + "-" + i), id);
             }
         }
