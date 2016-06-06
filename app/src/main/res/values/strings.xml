@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Jocs Admin</string>
+    <string name="app_name">MegaJocs</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -131,4 +131,10 @@
     <string name="mensaje_eliminar_mision">¿Esta seguro que quiere eliminar esta misión?</string>
     <string name="title_activity_mision_editar">Editar mision</string>
     <string name="title_activity_mision_agregar">Agregar misión</string>
+    <string name="action_ayuda">About</string>
+    <string name="action_no_iniciados">No iniciados</string>
+    <string name="action_iniciados">Iniciados</string>
+    <string name="action_terminados">Terminados</string>
+    <string name="action_todos">Todos los juegos</string>
+    <string name="mensaje_ayuda">MegaJocs sirve para administrar Juegos con sus respectivos personajes, objetos y misiones.</string>
 </resources>

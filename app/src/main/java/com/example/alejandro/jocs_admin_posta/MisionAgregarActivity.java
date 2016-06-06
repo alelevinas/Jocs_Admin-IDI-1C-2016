@@ -57,7 +57,6 @@ public class MisionAgregarActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_descartar) {
             onBackPressed();
         }

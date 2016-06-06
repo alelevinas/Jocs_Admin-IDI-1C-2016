@@ -46,8 +46,6 @@ public class JuegoAdapter extends RecyclerView.Adapter<JuegoAdapter.JuegoViewHol
         juegoViewHolder.vAno_publicacion.setText(ci.getAno_publicacion());
         juegoViewHolder.vCurso.setText(ci.getCurso());
         juegoViewHolder.vFotoId.setImageResource(ci.getFotoId());
-//        TODO: A VER SI SALE ESTO
-//        juegoViewHolder.vFotoId.setImageBitmap(BitmapFactory.decodeByteArray(ci.getLaFoto(),0,ci.getLaFoto().length));
 
         juegoViewHolder.currentJuego = ci;
     }
@@ -83,12 +81,9 @@ public class JuegoAdapter extends RecyclerView.Adapter<JuegoAdapter.JuegoViewHol
                     Toast.makeText(v.getContext(), currentJuego.getNombre(), Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(v.getContext(), JuegoInfoActivity.class);
-//                    EditText editText = (EditText) findViewById(R.id.edit_message);
-//                    String message = editText.getText().toString();
                     Bundle b = new Bundle();
                     b.putLong(EXTRA_JUEGO, currentJuego.getId());
                     intent.putExtras(b);
-//                    intent.putExtra(EXTRA_MESSAGE, message);
                     v.getContext().startActivity(intent);
                 }
             });

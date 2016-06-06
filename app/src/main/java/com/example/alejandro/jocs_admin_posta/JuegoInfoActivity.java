@@ -80,10 +80,7 @@ public class JuegoInfoActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_eliminar_juego) {
-            //Esta seguro?
-            //eliminar de la base de datos.
             dialogSeguro();
-//            onBackPressed();
             return true;
         }
 
@@ -112,7 +109,6 @@ public class JuegoInfoActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        Log.e("JUEGO INFO ACTIVITY", "ON RESUMEEEE");
 
         j = DatabaseManager.getInstance().getJuego(j.getId());
         if (j.getNombre() == null)

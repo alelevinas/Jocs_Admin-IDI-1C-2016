@@ -22,9 +22,8 @@ public class ObjetoAgregarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_objeto_editar);
 
-        juego_id = (long) getIntent().getLongExtra(JuegoObjetosFragment.ARG_JUEGO, -1);
+        juego_id = getIntent().getLongExtra(JuegoObjetosFragment.ARG_JUEGO, -1);
 
-        final Objeto objeto = new Objeto();
 
         mNombre = (EditText) findViewById(R.id.editNombre);
         mNivel = (EditText) findViewById(R.id.editNivel);
@@ -55,7 +54,6 @@ public class ObjetoAgregarActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_descartar) {
             onBackPressed();
         }

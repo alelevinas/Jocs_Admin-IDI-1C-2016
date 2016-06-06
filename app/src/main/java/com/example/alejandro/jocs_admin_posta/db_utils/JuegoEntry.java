@@ -16,7 +16,6 @@ public class JuegoEntry implements BaseColumns {
     public static final String COLUMN_FOTO_ID = "foto_id";
     public static final String COLUMN_FOTO = "la_foto";
 
-    //        table create statement
     public static final String CREATE_TABLE_JUEGOS = "CREATE TABLE "
             + TABLE_NAME + "(" + COLUMN_KEY_JUEGO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             COLUMN_NOMBRE + " TEXT UNIQUE," +

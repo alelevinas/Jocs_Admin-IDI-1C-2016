@@ -66,7 +66,6 @@ public class JuegoInfoFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
         super.onCreateOptionsMenu(menu, inflater);
-//        inflater.inflate(R.menu.menu_juego_info, menu);
     }
 
     @Override
@@ -81,7 +80,6 @@ public class JuegoInfoFragment extends Fragment {
         vCurso = (TextView) v.findViewById(R.id.txtCurso);
         vFotoId = (ImageView) v.findViewById(R.id.juego_foto);
         refresh_view();
-//        vFotoId.setImageBitmap(BitmapFactory.decodeByteArray(juego.laFoto,0,juego.laFoto.length));
 
 
         FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.editar_juego_fab);

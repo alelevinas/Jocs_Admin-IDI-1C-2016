@@ -75,10 +75,6 @@ public class JuegoMisionesFragment extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(v.getContext()); //nro de columnas
         recList.setLayoutManager(llm);
 
-
-//        DatabaseManager.initializeInstance(new JocsAdminDbHelper(v.getContext()));
-
-//        List<Mision> misions = DatabaseManager.getInstance().getAllMisions();
         List<Mision> misions = DatabaseManager.getInstance().getAllMisionesFromJuego(juego_id);
         misionAdapter = new MisionAdapter(getActivity(), misions);
         recList.setAdapter(misionAdapter);

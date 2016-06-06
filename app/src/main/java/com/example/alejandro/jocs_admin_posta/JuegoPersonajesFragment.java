@@ -56,7 +56,7 @@ public class JuegoPersonajesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_juego_personajes, container, false);
-        juego_id = (long) getArguments().getLong(ARG_JUEGO);
+        juego_id = getArguments().getLong(ARG_JUEGO);
 
 
         /*FLOATING ACTION BUTTON*/
@@ -64,9 +64,6 @@ public class JuegoPersonajesFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-
                 Context context = view.getContext();
                 Intent intent = new Intent(context, PersonajeAgregarActivity.class);
                 intent.putExtra(ARG_JUEGO, juego_id);
@@ -81,10 +78,6 @@ public class JuegoPersonajesFragment extends Fragment {
         glm = new GridLayoutManager(v.getContext(), 2);
         recList.setLayoutManager(glm);
 
-
-//        DatabaseManager.initializeInstance(new JocsAdminDbHelper(v.getContext()));
-
-//        List<Personaje> personajes = DatabaseManager.getInstance().getAllPersonajes();
         List<Personaje> personajes = DatabaseManager.getInstance().getAllPersonajesFromJuego(juego_id);
         personajeAdapter = new PersonajeAdapter(personajes);
         recList.setAdapter(personajeAdapter);
@@ -99,8 +92,6 @@ public class JuegoPersonajesFragment extends Fragment {
         Log.e("JUEGO PERSONAJES FRAG", "ON RESUMEEEE");
         List<Personaje> personajes = DatabaseManager.getInstance().getAllPersonajesFromJuego(juego_id);
         personajeAdapter = new PersonajeAdapter(personajes);
-//        recList.removeAllViews();
-//        recList.setLayoutManager(glm);
         recList.setAdapter(personajeAdapter);
 
     }

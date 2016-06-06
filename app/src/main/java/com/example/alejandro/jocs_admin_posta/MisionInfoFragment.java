@@ -20,7 +20,7 @@ public class MisionInfoFragment extends Fragment {
      */
 
     /**
-     * The dummy content this fragment is presenting.
+     * The content this fragment is presenting.
      */
     private Mision mision;
     private CollapsingToolbarLayout appBarLayout;
@@ -38,9 +38,6 @@ public class MisionInfoFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(MisionAdapter.MisionViewHolder.EXTRA_MISION)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
             mision = DatabaseManager.getInstance().getMision(getArguments().getLong(MisionAdapter.MisionViewHolder.EXTRA_MISION));
 
             Activity activity = this.getActivity();
@@ -56,7 +53,6 @@ public class MisionInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.mision_info, container, false);
 
-        // Show the dummy content as text in a TextView.
         if (mision != null) {
             mDescripcionYPunt = (TextView) rootView.findViewById(R.id.mision_detail);
             mDescripcionYPunt.setText(mision.getDescripcion() + "\n\nPuntuación: " + mision.getPuntuacion());

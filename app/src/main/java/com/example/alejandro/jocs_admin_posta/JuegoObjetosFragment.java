@@ -76,10 +76,6 @@ public class JuegoObjetosFragment extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(v.getContext()); //nro de columnas
         recList.setLayoutManager(llm);
 
-
-//        DatabaseManager.initializeInstance(new JocsAdminDbHelper(v.getContext()));
-
-//        List<Objeto> objetos = DatabaseManager.getInstance().getAllObjetos();
         List<Objeto> objetos = DatabaseManager.getInstance().getAllObjetosFromJuego(juego_id);
         objetoAdapter = new ObjetoAdapter(getActivity(), objetos);
         recList.setAdapter(objetoAdapter);

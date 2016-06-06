@@ -73,25 +73,17 @@ public class ObjetoAdapter extends RecyclerView.Adapter<ObjetoAdapter.ObjetoView
         protected TextView vNombre;
         protected TextView vNivel;
 
-//        public final ImageView mImageView;
-
         public ObjetoViewHolder(View v) {
             super(v);
             mView = v;
             vNombre = (TextView) v.findViewById(R.id.objeto_nombre);
             vNivel = (TextView) v.findViewById(R.id.objeto_nivel);
 
-//            mImageView = (ImageView) view.findViewById(R.id.avatar);
-
             /* EL LISTENER */
             /* aca mandar a la activity del Objeto con sus objetos, objetos y misiones*/
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //startActivity objeto (currentObjeto) bla bla
-//                    Toast.makeText(v.getContext(), currentObjeto.getNombre(), Toast.LENGTH_SHORT).show();
-
-
                     Intent intent = new Intent(v.getContext(), ObjetoEditarActivity.class);
                     Bundle b = new Bundle();
                     b.putLong(EXTRA_OBJETO, currentObjeto.getId());

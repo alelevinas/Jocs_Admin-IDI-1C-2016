@@ -75,9 +75,6 @@ public class PersonajeAdapter extends RecyclerView.Adapter<PersonajeAdapter.Pers
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //startActivity personaje (currentPersonaje) bla bla
-//                    Toast.makeText(v.getContext(), currentPersonaje.getNombre(), Toast.LENGTH_SHORT).show();
-
                     Intent intent = new Intent(v.getContext(), PersonajeEditarActivity.class);
                     Bundle b = new Bundle();
                     b.putLong(EXTRA_PERSONAJE, currentPersonaje.getId());

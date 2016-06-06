@@ -60,16 +60,7 @@ public class MisionAdapter extends RecyclerView.Adapter<MisionAdapter.MisionView
             misionViewHolder.mView.setBackgroundColor(Color.WHITE);
 
         misionViewHolder.vTitulo.setText(m.getTitulo());
-//        misionViewHolder.vDescripcion.setText(m.getDescripcion());
         misionViewHolder.vPuntuacion.setText(m.getPuntuacion());
-
-//        misionViewHolder.vFotoId.setImageResource(p.getFotoId());
-
-//        Glide.with(misionViewHolder.mImageView.getContext())
-//                .load(p.getImagen())
-//                .fitCenter()
-//                .into(misionViewHolder.mImageView);
-
         misionViewHolder.currentMision = m;
     }
 
@@ -83,25 +74,16 @@ public class MisionAdapter extends RecyclerView.Adapter<MisionAdapter.MisionView
         protected TextView vDescripcion;
         protected TextView vPuntuacion;
 
-//        public final ImageView mImageView;
-
         public MisionViewHolder(View v) {
             super(v);
             mView = v;
             vTitulo = (TextView) v.findViewById(R.id.mision_titulo);
-//            vDescripcion = (TextView) v.findViewById(R.id.mision_descripcion);
             vPuntuacion = (TextView) v.findViewById(R.id.mision_puntuacion);
 
-//            mImageView = (ImageView) view.findViewById(R.id.avatar);
-
             /* EL LISTENER */
-            /* aca mandar a la activity del Mision con sus*/
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //startActivity mision (currentMision) bla bla
-//                    Toast.makeText(v.getContext(), currentMision.getTitulo(), Toast.LENGTH_SHORT).show();
-
                     Intent intent = new Intent(v.getContext(), MisionInfoActivity.class);
                     Bundle b = new Bundle();
                     b.putLong(EXTRA_MISION, currentMision.getId());

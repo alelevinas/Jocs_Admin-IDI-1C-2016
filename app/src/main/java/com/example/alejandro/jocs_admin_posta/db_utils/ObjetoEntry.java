@@ -10,8 +10,6 @@ public class ObjetoEntry implements BaseColumns {
     //referencia a la tabla JUEGOS
     public static final String COLUMN_KEY_JUEGO_ID = "juego_id";
 
-//        public static final String COLUMN_KEY_PERSONAJE (?) = "";
-
 
     //        table create statement
     public static final String CREATE_TABLE_OBJETOS = "CREATE TABLE "

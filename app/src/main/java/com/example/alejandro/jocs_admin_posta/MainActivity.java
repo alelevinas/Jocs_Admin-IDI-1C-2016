@@ -1,13 +1,11 @@
 package com.example.alejandro.jocs_admin_posta;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,15 +20,14 @@ import com.example.alejandro.jocs_admin_posta.model.Juego;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
     RecyclerView recList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.app_bar_main);
 
 
         /*TOOLBAR*/
@@ -52,17 +49,6 @@ public class MainActivity extends AppCompatActivity
         });
 
 
-        /*DRAWER*/
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-
         /*CARDS*/
         recList = (RecyclerView) findViewById(R.id.juegos_cards);
         recList.setHasFixedSize(true);
@@ -70,24 +56,13 @@ public class MainActivity extends AppCompatActivity
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
 
-
         DatabaseManager.initializeInstance(new JocsAdminDbHelper(this.getApplicationContext()), this.getApplicationContext());
 
+        DatabaseManager.getInstance().restart();
 
         List<Juego> juegos = DatabaseManager.getInstance().getAllJuegos();
         JuegoAdapter ca = new JuegoAdapter(juegos);
         recList.setAdapter(ca);
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-
     }
 
     @Override
@@ -104,44 +79,45 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_ayuda) {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.action_ayuda)
+                    .setMessage(R.string.mensaje_ayuda)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
+
+        if (id == R.id.action_todos) {
+            List<Juego> juegos = DatabaseManager.getInstance().getAllJuegos();
+            JuegoAdapter ca = new JuegoAdapter(juegos);
+            recList.setAdapter(ca);
+        }
+        if (id == R.id.action_no_iniciados) {
+            List<Juego> juegos = DatabaseManager.getInstance().getAllJuegosNoIniciados();
+            JuegoAdapter ca = new JuegoAdapter(juegos);
+            recList.setAdapter(ca);
+        }
+        if (id == R.id.action_iniciados) {
+            List<Juego> juegos = DatabaseManager.getInstance().getAllJuegosIniciados();
+            JuegoAdapter ca = new JuegoAdapter(juegos);
+            recList.setAdapter(ca);
+        }
+        if (id == R.id.action_terminados) {
+            List<Juego> juegos = DatabaseManager.getInstance().getAllJuegosTerminados();
+            JuegoAdapter ca = new JuegoAdapter(juegos);
+            recList.setAdapter(ca);
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
-        recList.removeAllViewsInLayout();
-
         List<Juego> juegos = DatabaseManager.getInstance().getAllJuegos();
         JuegoAdapter ca = new JuegoAdapter(juegos);
         recList.setAdapter(ca);

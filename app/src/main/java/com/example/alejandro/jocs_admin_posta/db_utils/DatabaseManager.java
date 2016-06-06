@@ -29,7 +29,6 @@ public class DatabaseManager {
     private static DatabaseManager instance;
     private static SQLiteOpenHelper mDatabaseHelper;
     private static Context context;
-    private Integer mOpenCounter = 0;
 
     public static synchronized void initializeInstance(SQLiteOpenHelper helper, Context cont) {
         if (instance == null) {
@@ -56,7 +55,6 @@ public class DatabaseManager {
         db.execSQL("DROP TABLE IF EXISTS " + MisionEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + ObjetoEntry.TABLE_NAME);
         mDatabaseHelper.onCreate(db);
-//        mDatabaseHelper.onUpgrade(db,1,2);
     }
 
     // ------------------------ "juegos" table methods ----------------//
@@ -67,15 +65,6 @@ public class DatabaseManager {
     }
 
     public long agregarJuego(SQLiteDatabase db, Juego juego) {
-//        ContentValues values = new ContentValues();
-//        values.put(JuegoEntry.COLUMN_NOMBRE, juego.getNombre());
-//        values.put(JuegoEntry.COLUMN_PLATAFORMA, juego.getPlataforma());
-//        values.put(JuegoEntry.COLUMN_ESTUDIO, juego.getEstudio());
-//        values.put(JuegoEntry.COLUMN_ANO_PUBLICACION, juego.getAno_publicacion());
-//        values.put(JuegoEntry.COLUMN_CURSO, juego.getCurso());
-//        values.put(JuegoEntry.COLUMN_FOTO_ID, juego.getFotoId());
-//        values.put(JuegoEntry.COLUMN_FOTO, juego.getLaFoto());
-
         String sql = JuegoEntry.INSERT_JUEGO;
         SQLiteStatement insertStmt = db.compileStatement(sql);
         insertStmt.clearBindings();
@@ -87,11 +76,6 @@ public class DatabaseManager {
         insertStmt.bindLong(6, juego.getFotoId());
         insertStmt.bindBlob(7, juego.getLaFoto());
         long juego_id = insertStmt.executeInsert();
-
-
-
-        // Insert the new row, returning the primary key value of the new row
-//        long juego_id = db.insert(JuegoEntry.TABLE_NAME, null, values);
 
         juego.setId(juego_id);
 
@@ -161,6 +145,49 @@ public class DatabaseManager {
         return juegos;
     }
 
+    public List<Juego> getAllJuegosThat(String selectQuery) {
+        List<Juego> juegos = new ArrayList<>();
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                Juego juego = new Juego();
+                juego.setId(c.getLong(c.getColumnIndex(JuegoEntry.COLUMN_KEY_JUEGO_ID)));
+                juego.setNombre(c.getString(c.getColumnIndex(JuegoEntry.COLUMN_NOMBRE)));
+                juego.setPlataforma(c.getString(c.getColumnIndex(JuegoEntry.COLUMN_PLATAFORMA)));
+                juego.setEstudio(c.getString(c.getColumnIndex(JuegoEntry.COLUMN_ESTUDIO)));
+                juego.setAno_publicacion(c.getString(c.getColumnIndex(JuegoEntry.COLUMN_ANO_PUBLICACION)));
+                juego.setCurso(c.getString(c.getColumnIndex(JuegoEntry.COLUMN_CURSO)));
+                juego.setFotoId(c.getInt(c.getColumnIndex(JuegoEntry.COLUMN_FOTO_ID)));
+
+                // adding to juego list
+                juegos.add(juego);
+            } while (c.moveToNext());
+        }
+        return juegos;
+    }
+
+    public List<Juego> getAllJuegosNoIniciados() {
+        return getAllJuegosThat("SELECT * FROM " + JuegoEntry.TABLE_NAME +
+                " WHERE " + JuegoEntry.COLUMN_CURSO + "='No iniciado'");
+    }
+
+    public List<Juego> getAllJuegosIniciados() {
+        return getAllJuegosThat("SELECT * FROM " + JuegoEntry.TABLE_NAME +
+                " WHERE " + JuegoEntry.COLUMN_CURSO + "='Iniciado'");
+    }
+
+    public List<Juego> getAllJuegosTerminados() {
+        return getAllJuegosThat("SELECT * FROM " + JuegoEntry.TABLE_NAME +
+                " WHERE " + JuegoEntry.COLUMN_CURSO + "='Terminado'");
+    }
+
+
     public void updateJuego(long juego_id, String mTituloText, String mPlataformaText,
                             String mEstudioText, String mAnoPublicacionText, String mEstadoText,
                             byte[] mImagen) {
@@ -172,7 +199,6 @@ public class DatabaseManager {
         values.put(JuegoEntry.COLUMN_ESTUDIO, mEstudioText);
         values.put(JuegoEntry.COLUMN_ANO_PUBLICACION, mAnoPublicacionText);
         values.put(JuegoEntry.COLUMN_CURSO, mEstadoText);
-//        values.put(JuegoEntry.COLUMN_FOTO_ID, m);
         values.put(JuegoEntry.COLUMN_FOTO, mImagen);
 
 
@@ -210,7 +236,6 @@ public class DatabaseManager {
         values.put(PersonajeEntry.COLUMN_RAZA, personaje.getRaza());
         values.put(JuegoEntry.COLUMN_FOTO_ID, personaje.getFotoId());
 
-//        values.put(PersonajeEntry.COLUMN_KEY_JUEGO_ID, personaje.getJuego_id());
         values.put(PersonajeEntry.COLUMN_KEY_JUEGO_ID, juego_id);
 
         // Insert the new row, returning the primary key value of the new row
@@ -301,9 +326,6 @@ public class DatabaseManager {
         values.put(PersonajeEntry.COLUMN_NOMBRE, nombre);
         values.put(PersonajeEntry.COLUMN_RAZA, raza);
         values.put(PersonajeEntry.COLUMN_NIVEL, nivel);
-        //        values.put(PersonajeEntry.COLUMN_FOTO_ID, m);
-//        values.put(PersonajeEntry.COLUMN_FOTO_ID, mImagen);
-
 
         db.update(PersonajeEntry.TABLE_NAME, values, PersonajeEntry.COLUMN_KEY_PERSONAJE_ID + " = " + personaje_id, null);
     }
@@ -329,11 +351,8 @@ public class DatabaseManager {
         ContentValues values = new ContentValues();
         values.put(ObjetoEntry.COLUMN_NOMBRE, objeto.getNombre());
         values.put(ObjetoEntry.COLUMN_NIVEL, objeto.getNivel());
-
-//        values.put(ObjetoEntry.COLUMN_KEY_JUEGO_ID, objeto.getJuego_id());
         values.put(ObjetoEntry.COLUMN_KEY_JUEGO_ID, juego_id);
 
-        // Insert the new row, returning the primary key value of the new row
         long objeto_id = db.insert(ObjetoEntry.TABLE_NAME, null, values);
 
         objeto.setId(objeto_id);
@@ -350,8 +369,6 @@ public class DatabaseManager {
 
         SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
-
-        // looping through all rows and adding to list
 
         Objeto objeto = new Objeto();
         if (c.moveToFirst()) {
@@ -377,8 +394,6 @@ public class DatabaseManager {
         SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
 
-        // looping through all rows and adding to list
-
         if (c.moveToFirst()) {
             do {
                 Objeto objeto = new Objeto();
@@ -387,7 +402,6 @@ public class DatabaseManager {
                 objeto.setNivel(c.getString(c.getColumnIndex(ObjetoEntry.COLUMN_NIVEL)));
                 objeto.setJuego_id(c.getLong(c.getColumnIndex(ObjetoEntry.COLUMN_KEY_JUEGO_ID)));
 
-                // adding to objeto list
                 objetos.add(objeto);
             } while (c.moveToNext());
         }
@@ -441,11 +455,8 @@ public class DatabaseManager {
         values.put(MisionEntry.COLUMN_TITULO, mision.getTitulo());
         values.put(MisionEntry.COLUMN_DESCRIPCION, mision.getDescripcion());
         values.put(MisionEntry.COLUMN_PUNTUACION, mision.getPuntuacion());
-
-//        values.put(MisionEntry.COLUMN_KEY_JUEGO_ID, mision.getJuego_id());
         values.put(MisionEntry.COLUMN_KEY_JUEGO_ID, juego_id);
 
-        // Insert the new row, returning the primary key value of the new row
         long mision_id = db.insert(MisionEntry.TABLE_NAME, null, values);
 
         mision.setId(mision_id);
@@ -461,7 +472,6 @@ public class DatabaseManager {
         SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
 
-        // looping through row and adding to list
         Mision mision = new Mision();
         if (c.moveToFirst()) {
             do {
@@ -487,8 +497,6 @@ public class DatabaseManager {
         SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
 
-        // looping through all rows and adding to list
-
         if (c.moveToFirst()) {
             do {
                 Mision mision = new Mision();
@@ -498,7 +506,6 @@ public class DatabaseManager {
                 mision.setPuntuacion(c.getString(c.getColumnIndex(MisionEntry.COLUMN_PUNTUACION)));
                 mision.setJuegoId(c.getLong(c.getColumnIndex(MisionEntry.COLUMN_KEY_JUEGO_ID)));
 
-                // adding to mision list
                 misiones.add(mision);
             } while (c.moveToNext());
         }
@@ -557,7 +564,7 @@ public class DatabaseManager {
         zelda.setPlataforma("Nintendo 64");
         zelda.setEstudio("Nintendo");
         zelda.setAno_publicacion("1998");
-        zelda.setCurso("No Iniciado");
+        zelda.setCurso("Terminado");
         zelda.setFotoId(R.drawable.zelda_the_legend_of_zelda_ocarina_of_time);
 
         Bitmap bMap = BitmapFactory.decodeResource(context.getResources(), R.drawable.zelda_the_legend_of_zelda_ocarina_of_time);
@@ -646,15 +653,8 @@ public class DatabaseManager {
             juego.setPlataforma("PLATAFORMA_" + i);
             juego.setEstudio("ESTUDIO_" + i);
             juego.setAno_publicacion("2016");
-            juego.setCurso("En curso");
+            juego.setCurso("No iniciado");
             juego.setFotoId(R.drawable.ic_juego);
-
-//            Bitmap bMap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_juego);
-//            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//            if (bMap.compress(Bitmap.CompressFormat.PNG, 50, stream))
-//                Log.e("BITMAPPPP", "NO SE PUDO SACAR LOS BITS!!!!");
-//            byte[] bitmapdata = stream.toByteArray();
-//            juego.setLaFoto(bitmapdata);
 
             juego.setLaFoto(new byte[]{0, 1, 0});
 
