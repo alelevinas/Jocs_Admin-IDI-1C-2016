@@ -117,14 +117,15 @@ public class DatabaseManager {
             c.moveToFirst();
 
         Juego juego = new Juego();
-        juego.setId(c.getLong(c.getColumnIndex(JuegoEntry.COLUMN_KEY_JUEGO_ID)));
-        juego.setNombre(c.getString(c.getColumnIndex(JuegoEntry.COLUMN_NOMBRE)));
-        juego.setPlataforma(c.getString(c.getColumnIndex(JuegoEntry.COLUMN_PLATAFORMA)));
-        juego.setEstudio(c.getString(c.getColumnIndex(JuegoEntry.COLUMN_ESTUDIO)));
-        juego.setAno_publicacion(c.getString(c.getColumnIndex(JuegoEntry.COLUMN_ANO_PUBLICACION)));
-        juego.setCurso(c.getString(c.getColumnIndex(JuegoEntry.COLUMN_CURSO)));
-        juego.setFotoId(c.getInt(c.getColumnIndex(JuegoEntry.COLUMN_FOTO_ID)));
-
+        if (c.moveToFirst()) {
+            juego.setId(c.getLong(c.getColumnIndex(JuegoEntry.COLUMN_KEY_JUEGO_ID)));
+            juego.setNombre(c.getString(c.getColumnIndex(JuegoEntry.COLUMN_NOMBRE)));
+            juego.setPlataforma(c.getString(c.getColumnIndex(JuegoEntry.COLUMN_PLATAFORMA)));
+            juego.setEstudio(c.getString(c.getColumnIndex(JuegoEntry.COLUMN_ESTUDIO)));
+            juego.setAno_publicacion(c.getString(c.getColumnIndex(JuegoEntry.COLUMN_ANO_PUBLICACION)));
+            juego.setCurso(c.getString(c.getColumnIndex(JuegoEntry.COLUMN_CURSO)));
+            juego.setFotoId(c.getInt(c.getColumnIndex(JuegoEntry.COLUMN_FOTO_ID)));
+        }
 
         return juego;
     }
@@ -133,7 +134,7 @@ public class DatabaseManager {
      * getting all juegos
      */
     public List<Juego> getAllJuegos() {
-        List<Juego> juegos = new ArrayList<Juego>();
+        List<Juego> juegos = new ArrayList<>();
         String selectQuery = "SELECT  * FROM " + JuegoEntry.TABLE_NAME;
 
         Log.e(LOG, selectQuery);
@@ -545,9 +546,9 @@ public class DatabaseManager {
 
 
         List<Long> ids = this.agregarJuegos(db, 10);
-        agregarPersonajes(db, 15, ids);
-        agregarObjetos(db, 25, ids);
-        agregarMisiones(db, 25, ids);
+        agregarPersonajes(db, 7, ids);
+        agregarObjetos(db, 8, ids);
+        agregarMisiones(db, 9, ids);
     }
 
     private void agregarLegendOfZeldaOcarinaOfTime(SQLiteDatabase db) {
@@ -615,7 +616,7 @@ public class DatabaseManager {
         this.agregarPersonaje(db, new Personaje("Mario", "Plomero", "6", R.drawable.mario_mario), id);
         this.agregarPersonaje(db, new Personaje("Luigi", "Plomero", "5", R.drawable.mario_luigi_chico), id);
         this.agregarPersonaje(db, new Personaje("Peach", "Princesa", "1", R.drawable.mario_peach), id);
-        this.agregarPersonaje(db, new Personaje("mario_toad", "Hongo", "1", R.drawable.mario_toad_chico), id);
+        this.agregarPersonaje(db, new Personaje("Toad", "Hongo", "1", R.drawable.mario_toad_chico), id);
 
         this.agregarObjeto(db, new Objeto("Hongo Rojo", "2"), id);
         this.agregarObjeto(db, new Objeto("Hongo Verde", "1"), id);
@@ -681,7 +682,7 @@ public class DatabaseManager {
     private void agregarMisiones(SQLiteDatabase db, int size, List<Long> juegos_ids) {
         for (long id : juegos_ids) {
             for (int i = 1; i <= size; i++) {
-                this.agregarMision(db, new Mision("MISION_" + id + "-" + i, "Descripcion que suele ser un poco mas larga_" + id + "-" + i, "PUNTUACION PERFECTA WACHOOO"), id);
+                this.agregarMision(db, new Mision("MISION_" + id + "-" + i, "Descripcion que suele ser un poco mas larga_" + id + "-" + i, "80%"), id);
             }
         }
     }

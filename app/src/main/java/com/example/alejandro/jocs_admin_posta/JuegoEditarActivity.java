@@ -2,6 +2,7 @@ package com.example.alejandro.jocs_admin_posta;
 
 import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -147,6 +149,11 @@ public class JuegoEditarActivity extends AppCompatActivity implements AdapterVie
             onBackPressed();
         }
 
+        if (id == R.id.action_eliminar) {
+            dialogSeguro();
+            return true;
+        }
+
         /*GUARDAR EL NUEVO JUEGO EDITADO Y VOLVER*/
         if (id == android.R.id.home) {
             byte[] bitmapdata;
@@ -176,6 +183,25 @@ public class JuegoEditarActivity extends AppCompatActivity implements AdapterVie
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    public void dialogSeguro() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.action_eliminar_juego)
+                .setMessage(R.string.mensaje_eliminar_juego)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        DatabaseManager.getInstance().eliminarJuego(juego_id);
+                        onBackPressed();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
     public void btnAddOnClick(View view) {

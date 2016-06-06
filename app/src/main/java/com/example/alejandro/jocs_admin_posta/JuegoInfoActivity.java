@@ -114,7 +114,9 @@ public class JuegoInfoActivity extends AppCompatActivity {
         super.onResume();
 //        Log.e("JUEGO INFO ACTIVITY", "ON RESUMEEEE");
 
-//        j = DatabaseManager.getInstance().getJuego(j.getId());
+        j = DatabaseManager.getInstance().getJuego(j.getId());
+        if (j.getNombre() == null)
+            onBackPressed();
     }
 
     /**
