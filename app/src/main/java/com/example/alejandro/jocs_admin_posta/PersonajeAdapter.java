@@ -1,12 +1,13 @@
 package com.example.alejandro.jocs_admin_posta;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.alejandro.jocs_admin_posta.model.Personaje;
 
@@ -75,17 +76,18 @@ public class PersonajeAdapter extends RecyclerView.Adapter<PersonajeAdapter.Pers
                 @Override
                 public void onClick(View v) {
                     //startActivity personaje (currentPersonaje) bla bla
-                    Toast.makeText(v.getContext(), currentPersonaje.getNombre(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(v.getContext(), currentPersonaje.getNombre(), Toast.LENGTH_SHORT).show();
 
-                    /*
-                    Intent intent = new Intent(v.getContext(), PersonajeInfoActivity.class);
+                    Intent intent = new Intent(v.getContext(), PersonajeEditarActivity.class);
                     Bundle b = new Bundle();
-                    b.putSerializable(EXTRA_PERSONAJE, currentPersonaje);
+                    b.putLong(EXTRA_PERSONAJE, currentPersonaje.getId());
                     intent.putExtras(b);
                     v.getContext().startActivity(intent);
-                    */
+
                 }
             });
         }
+
+
     }
 }

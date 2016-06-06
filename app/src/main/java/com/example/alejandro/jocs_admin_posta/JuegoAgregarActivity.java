@@ -160,7 +160,7 @@ public class JuegoAgregarActivity extends AppCompatActivity implements AdapterVi
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings_descartar) {
+        if (id == R.id.action_descartar) {
             onBackPressed();
             return true;
         }

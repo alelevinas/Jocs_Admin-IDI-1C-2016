@@ -28,7 +28,7 @@ public class Personaje {
         this.nombre = nombre;
         this.raza = raza;
         this.nivel = nivel;
-        this.fotoId = R.mipmap.ic_launcher;
+        this.fotoId = R.drawable.ic_android;
     }
 
     public int getFotoId() {

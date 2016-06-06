@@ -258,12 +258,53 @@ public class DatabaseManager {
                 " ORDER BY " + PersonajeEntry.COLUMN_NIVEL);
     }
 
+    public Personaje getPersonaje(long id) {
+        String selectQuery = "SELECT  * FROM " + PersonajeEntry.TABLE_NAME + " WHERE "
+                + PersonajeEntry.COLUMN_KEY_PERSONAJE_ID + " = " + id;
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+
+        Personaje personaje = new Personaje();
+        if (c.moveToFirst()) {
+            do {
+                personaje.setId(c.getLong(c.getColumnIndex(PersonajeEntry.COLUMN_KEY_PERSONAJE_ID)));
+                personaje.setNombre(c.getString(c.getColumnIndex(PersonajeEntry.COLUMN_NOMBRE)));
+                personaje.setNivel(c.getString(c.getColumnIndex(PersonajeEntry.COLUMN_NIVEL)));
+                personaje.setRaza(c.getString(c.getColumnIndex(PersonajeEntry.COLUMN_RAZA)));
+                personaje.setFotoId(c.getInt(c.getColumnIndex(PersonajeEntry.COLUMN_FOTO_ID)));
+                personaje.setJuego_id(c.getLong(c.getColumnIndex(PersonajeEntry.COLUMN_KEY_JUEGO_ID)));
+
+            } while (c.moveToNext());
+        }
+        return personaje;
+    }
+
+
+
     private void eliminarPersonajesDe(SQLiteDatabase db, long id) {
         String sql = PersonajeEntry.DELETE_PERSONAJES_DE_JUEGO;
         SQLiteStatement deleteStmt = db.compileStatement(sql);
         deleteStmt.clearBindings();
         deleteStmt.bindString(1, "" + id);
         deleteStmt.executeUpdateDelete();
+    }
+
+    public void updatePersonaje(long personaje_id, String nombre, String raza, String nivel, byte[] bitmapdata_imagen) {
+        SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(PersonajeEntry.COLUMN_NOMBRE, nombre);
+        values.put(PersonajeEntry.COLUMN_RAZA, raza);
+        values.put(PersonajeEntry.COLUMN_NIVEL, nivel);
+        //        values.put(PersonajeEntry.COLUMN_FOTO_ID, m);
+//        values.put(PersonajeEntry.COLUMN_FOTO_ID, mImagen);
+
+
+        db.update(PersonajeEntry.TABLE_NAME, values, PersonajeEntry.COLUMN_KEY_PERSONAJE_ID + " = " + personaje_id, null);
     }
 
 // ------------------------ "Objetos" table methods ----------------//

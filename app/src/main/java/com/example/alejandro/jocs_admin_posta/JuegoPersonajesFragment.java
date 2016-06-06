@@ -1,9 +1,13 @@
 package com.example.alejandro.jocs_admin_posta;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +26,11 @@ public class JuegoPersonajesFragment extends Fragment {
      * The fragment argument representing the section number for this
      * fragment.
      */
-    private static final String ARG_JUEGO = "juego";
+    private static final String ARG_JUEGO = "juego_id";
+    private PersonajeAdapter personajeAdapter;
+    private RecyclerView recList;
+    private long juego_id;
+    private GridLayoutManager glm;
 
     public JuegoPersonajesFragment() {
     }
@@ -48,13 +56,29 @@ public class JuegoPersonajesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_juego_personajes, container, false);
-        long juego_id = (long) getArguments().getLong(ARG_JUEGO);
+        juego_id = (long) getArguments().getLong(ARG_JUEGO);
 
+
+        /*FLOATING ACTION BUTTON*/
+        FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.fab_agregar_personaje);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+
+                Context context = view.getContext();
+                Intent intent = new Intent(context, PersonajeAgregarActivity.class);
+                intent.putExtra(ARG_JUEGO, juego_id);
+                context.startActivity(intent);
+            }
+        });
 
         /*CARDS*/
-        RecyclerView recList = (RecyclerView) v.findViewById(R.id.personajes_cards);
+        recList = (RecyclerView) v.findViewById(R.id.personajes_cards);
         recList.setHasFixedSize(true);
-        GridLayoutManager glm = new GridLayoutManager(v.getContext(), 2); //nro de columnas
+        //nro de columnas
+        glm = new GridLayoutManager(v.getContext(), 2);
         recList.setLayoutManager(glm);
 
 
@@ -62,10 +86,22 @@ public class JuegoPersonajesFragment extends Fragment {
 
 //        List<Personaje> personajes = DatabaseManager.getInstance().getAllPersonajes();
         List<Personaje> personajes = DatabaseManager.getInstance().getAllPersonajesFromJuego(juego_id);
-        PersonajeAdapter pa = new PersonajeAdapter(personajes);
-        recList.setAdapter(pa);
+        personajeAdapter = new PersonajeAdapter(personajes);
+        recList.setAdapter(personajeAdapter);
 
 
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("JUEGO PERSONAJES FRAG", "ON RESUMEEEE");
+        List<Personaje> personajes = DatabaseManager.getInstance().getAllPersonajesFromJuego(juego_id);
+        personajeAdapter = new PersonajeAdapter(personajes);
+//        recList.removeAllViews();
+//        recList.setLayoutManager(glm);
+        recList.setAdapter(personajeAdapter);
+
     }
 }

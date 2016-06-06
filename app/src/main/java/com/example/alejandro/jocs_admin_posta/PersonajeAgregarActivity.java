@@ -15,51 +15,47 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 
 import com.example.alejandro.jocs_admin_posta.db_utils.DatabaseManager;
-import com.example.alejandro.jocs_admin_posta.model.Juego;
+import com.example.alejandro.jocs_admin_posta.model.Personaje;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class JuegoEditarActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class PersonajeAgregarActivity extends AppCompatActivity {
 
-    public static final String ARG_JUEGO_ID = "juego_id";
     private static final int RESULT_LOAD_IMAGE = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 2;
+    private static final String ARG_JUEGO = "juego_id";
 
-    String estado_seleccionado;
     private Uri mCapturedImageURI;
     private String picturePath = "";
     private ImageButton mImagen;
     private Bitmap nueva = null;
 
+    private int ano_pub = -1;
+    private long juego_id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_juego_editar);
+        setContentView(R.layout.activity_personaje_editar);
 
-        final long juego_id = getIntent().getLongExtra(ARG_JUEGO_ID, 0);
-        final Juego juego = DatabaseManager.getInstance().getJuego(juego_id);
+        juego_id = (long) getIntent().getLongExtra(ARG_JUEGO, -1);
 
-        final EditText mTitulo = (EditText) findViewById(R.id.editTitulo);
-        final EditText mPlataforma = (EditText) findViewById(R.id.editPlataforma);
-        final EditText mEstudio = (EditText) findViewById(R.id.editEstudio);
-        final EditText mAnoPublicacion = (EditText) findViewById(R.id.editAnoPublicacion);
+        final Personaje personaje_nuevo = new Personaje();
 
-        mImagen = (ImageButton) findViewById(R.id.imagenJuego);
-        final Spinner mCurso = (Spinner) findViewById(R.id.spinnerCurso);
+        final EditText mNombre = (EditText) findViewById(R.id.editNombre);
+        final EditText mRaza = (EditText) findViewById(R.id.editRaza);
+        final EditText mNivel = (EditText) findViewById(R.id.editNivel);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_editar_juego);
-        toolbar.setTitle("Editar " + juego.getNombre());
+        mImagen = (ImageButton) findViewById(R.id.imagenPersonaje);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_editar_personaje);
+        toolbar.setTitle("Agregar Personaje ");
         toolbar.setNavigationIcon(R.drawable.ic_done_black_24dp);
         toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,48 +64,29 @@ public class JuegoEditarActivity extends AppCompatActivity implements AdapterVie
                 if (nueva != null) {
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     if (nueva.compress(Bitmap.CompressFormat.PNG, 100, stream))
-                        Log.e("DESDE EL EDITAR JUEGO", "NO SE PUDO SACAR LOS BITS!!!!");
+                        Log.e("DESDE EL EDIT PERSONAJE", "NO SE PUDO SACAR LOS BITS!!!!");
                     bitmapdata = stream.toByteArray();
-                } else
-                    bitmapdata = juego.getLaFoto();
+                } else {
+                    Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_juego);
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    if (bMap.compress(Bitmap.CompressFormat.PNG, 50, stream))
+                        Log.e("BITMAPPPP", "NO SE PUDO SACAR LOS BITS!!!!");
+                    bitmapdata = stream.toByteArray();
+                }
 
+                Log.e("AGREGAR PERSONAJE", "-----------APRETE EL AGREGAR");
+                DatabaseManager.getInstance().agregarPersonaje(setearPersonaje(personaje_nuevo, mNombre.getText().toString(), mRaza.getText().toString(),
+                        mNivel.getText().toString(), bitmapdata), juego_id);
 
-                Log.e("JUEGO EDITAR ACTIVITY", "APRETE EL UPDATEEE " + " APRETE EL UPDATEEE");
-                DatabaseManager.getInstance().updateJuego(juego_id, mTitulo.getText().toString(), mPlataforma.getText().toString(),
-                        mEstudio.getText().toString(), mAnoPublicacion.getText().toString(), estado_seleccionado, bitmapdata);
                 onBackPressed();
             }
         });
-        /*toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                byte[] bitmapdata;
-                if (nueva != null) {
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    if (nueva.compress(Bitmap.CompressFormat.PNG, 100, stream))
-                        Log.e("DESDE EL EDITAR JUEGO", "NO SE PUDO SACAR LOS BITS!!!!");
-                    bitmapdata = stream.toByteArray();
-                } else
-                    bitmapdata = juego.getLaFoto();
-
-                Log.e("JUEGO EDITAR ACTIVITY", "APRETE EL UPDATEEE " + " APRETE EL UPDATEEE");
-                DatabaseManager.getInstance().updateJuego(juego_id, mTitulo.getText().toString(), mPlataforma.getText().toString(),
-                        mEstudio.getText().toString(), mAnoPublicacion.getText().toString(), estado_seleccionado, bitmapdata);
-                onBackPressed();
-                onBackPressed();
-                finish();
-            }
-        });*/
         setSupportActionBar(toolbar);
 
-
-        mTitulo.setText(juego.getNombre());
-        mPlataforma.setText(juego.getPlataforma());
-        mEstudio.setText(juego.getEstudio());
-        mAnoPublicacion.setText(juego.getAno_publicacion());
-        mImagen.setImageResource(juego.getFotoId());
-
-        iniciarSpinnerCurso(juego, mCurso);
+        mNombre.setHint("Nombre");
+        mRaza.setHint("Raza");
+        mNivel.setHint("Nivel");
+        mImagen.setImageResource(R.drawable.ic_menu_gallery);
 
         mImagen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,34 +108,12 @@ public class JuegoEditarActivity extends AppCompatActivity implements AdapterVie
             }
         });
 
-
-    }
-
-    private void iniciarSpinnerCurso(Juego juego, Spinner mCurso) {
-        List<String> l = new ArrayList<>();
-        l.add("No iniciado");
-        l.add("Iniciado");
-        l.add("Terminado");
-
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.estados_juego, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-        mCurso.setAdapter(adapter);
-        if (juego.getCurso() == "No iniciado")
-            mCurso.setSelection(0);
-        else if (juego.getCurso() == "Iniciado")
-            mCurso.setSelection(1);
-        else
-            mCurso.setSelection(2);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_editar, menu);
+        getMenuInflater().inflate(R.menu.menu_juego_agregar, menu);
         return true;
     }
 
@@ -170,22 +125,14 @@ public class JuegoEditarActivity extends AppCompatActivity implements AdapterVie
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_descartar_cambios) {
+        if (id == R.id.action_descartar) {
             onBackPressed();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        estado_seleccionado = (String) parent.getItemAtPosition(position);
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
 
     public void btnAddOnClick(View view) {
         final Dialog dialog = new Dialog(this);
@@ -242,7 +189,7 @@ public class JuegoEditarActivity extends AppCompatActivity implements AdapterVie
      */
     private void activeGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, RESULT_LOAD_IMAGE);
     }
 
@@ -301,4 +248,14 @@ public class JuegoEditarActivity extends AppCompatActivity implements AdapterVie
                 }
         }
     }*/
+
+    Personaje setearPersonaje(Personaje personaje, String nombre, String raza, String nivel, byte[] bitmapdata) {
+        personaje.setNombre(nombre);
+        personaje.setRaza(raza);
+        personaje.setNivel(nivel);
+        Log.e("AGREGAR PERSONAJE", "AGREGANDO PERSONAJE CON NOMBRE: " + nombre);
+        personaje.setFotoId(R.drawable.ic_android);
+//        personaje.setLaFoto(bitmapdata);
+        return personaje;
+    }
 }

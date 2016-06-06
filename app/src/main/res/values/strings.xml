@@ -111,6 +111,8 @@
     <string name="mensaje_eliminar_juego">¿Esta seguro que desea eliminar ese juego con todos sus personajes, misiones y objetos?</string>
     <string name="aceptar">Aceptar</string>
     <string name="cancelar">Cancelar</string>
+    <string name="title_activity_personaje_editar">Editar personaje</string>
+    <string name="title_activity_personaje_agregar">Agregar personaje</string>
 
     <string-array name="estados_juego">
         <item>No iniciado</item>
