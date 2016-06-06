@@ -4,8 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,9 +15,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.alejandro.jocs_admin_posta.db_utils.DatabaseManager;
 import com.example.alejandro.jocs_admin_posta.model.Juego;
-
-import java.io.Serializable;
 
 /**
  * Created by Alejandro on 2/6/2016.
@@ -28,6 +28,14 @@ public class JuegoInfoFragment extends Fragment {
      */
     private static final String ARG_JUEGO = "juego";
     private Juego juego;
+    private long id_juego;
+    private TextView vNombre;
+    private TextView vEstudio;
+    private TextView vPlataforma;
+    private TextView vAno_publicacion;
+    private TextView vCurso;
+    private ImageView vFotoId;
+    private View v;
 
     public JuegoInfoFragment() {
     }
@@ -36,10 +44,10 @@ public class JuegoInfoFragment extends Fragment {
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static JuegoInfoFragment newInstance(Juego juego) {
+    public static JuegoInfoFragment newInstance(long juego_id) {
         JuegoInfoFragment fragment = new JuegoInfoFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_JUEGO, (Serializable) juego);
+        args.putLong(ARG_JUEGO, juego_id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,7 +57,8 @@ public class JuegoInfoFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        juego = (Juego) getArguments().getSerializable(ARG_JUEGO);
+        id_juego = (long) getArguments().getLong(ARG_JUEGO);
+        juego = DatabaseManager.getInstance().getJuego(id_juego);
 
     }
 
@@ -58,27 +67,20 @@ public class JuegoInfoFragment extends Fragment {
         // Inflate the menu; this adds items to the action bar if it is present.
         super.onCreateOptionsMenu(menu, inflater);
 //        inflater.inflate(R.menu.menu_juego_info, menu);
-        menu.add("Otra coas de INFOOO");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_juego_info, container, false);
+        v = inflater.inflate(R.layout.fragment_juego_info, container, false);
 
-        TextView vNombre = (TextView) v.findViewById(R.id.titulo);
-        TextView vEstudio = (TextView) v.findViewById(R.id.txtEstudio);
-        TextView vPlataforma = (TextView) v.findViewById(R.id.txtPlataforma);
-        TextView vAno_publicacion = (TextView) v.findViewById(R.id.txtAnoPublicacion);
-        TextView vCurso = (TextView) v.findViewById(R.id.txtCurso);
-        ImageView vFotoId = (ImageView) v.findViewById(R.id.juego_foto);
-
-        vNombre.setText(juego.getNombre());
-        vPlataforma.setText(juego.getPlataforma());
-        vEstudio.setText(juego.getEstudio());
-        vAno_publicacion.setText(juego.getAno_publicacion());
-        vCurso.setText(juego.getCurso());
-        vFotoId.setImageResource(juego.getFotoId());
+        vNombre = (TextView) v.findViewById(R.id.titulo);
+        vEstudio = (TextView) v.findViewById(R.id.txtEstudio);
+        vPlataforma = (TextView) v.findViewById(R.id.txtPlataforma);
+        vAno_publicacion = (TextView) v.findViewById(R.id.txtAnoPublicacion);
+        vCurso = (TextView) v.findViewById(R.id.txtCurso);
+        vFotoId = (ImageView) v.findViewById(R.id.juego_foto);
+        refresh_view();
 //        vFotoId.setImageBitmap(BitmapFactory.decodeByteArray(juego.laFoto,0,juego.laFoto.length));
 
 
@@ -86,9 +88,6 @@ public class JuegoInfoFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
                 Context context = view.getContext();
                 Intent intent = new Intent(context, JuegoEditarActivity.class);
                 intent.putExtra(JuegoEditarActivity.ARG_JUEGO_ID, juego.getId());
@@ -99,5 +98,25 @@ public class JuegoInfoFragment extends Fragment {
 
 
         return v;
+    }
+
+    private void refresh_view() {
+        vNombre.setText(juego.getNombre());
+        vPlataforma.setText(juego.getPlataforma());
+        vEstudio.setText(juego.getEstudio());
+        vAno_publicacion.setText(juego.getAno_publicacion());
+        vCurso.setText(juego.getCurso());
+        vFotoId.setImageResource(juego.getFotoId());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("JUEGO INFO FRAGMENT", "ON RESUMEEEE");
+        juego = DatabaseManager.getInstance().getJuego(id_juego);
+
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar_juego_info);
+        toolbar.setTitle(juego.getNombre());
+        refresh_view();
     }
 }

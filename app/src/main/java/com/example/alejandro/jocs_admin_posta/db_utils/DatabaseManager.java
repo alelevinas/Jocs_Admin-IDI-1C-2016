@@ -178,6 +178,22 @@ public class DatabaseManager {
         db.update(JuegoEntry.TABLE_NAME, values, JuegoEntry.COLUMN_KEY_JUEGO_ID + " = " + Long.toString(juego_id), null);
     }
 
+    public void eliminarJuego(long id) {
+        SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+
+        this.eliminarPersonajesDe(db, id);
+        this.eliminarObjetosDe(db, id);
+        this.eliminarMisionesDe(db, id);
+
+        String sql = JuegoEntry.DELETE_JUEGO;
+        SQLiteStatement deleteStmt = db.compileStatement(sql);
+        deleteStmt.clearBindings();
+        deleteStmt.bindString(1, "" + id);
+        deleteStmt.executeUpdateDelete();
+    }
+
+
+
 
     // ------------------------ "Personajes" table methods ----------------//
 
@@ -242,6 +258,14 @@ public class DatabaseManager {
                 " ORDER BY " + PersonajeEntry.COLUMN_NIVEL);
     }
 
+    private void eliminarPersonajesDe(SQLiteDatabase db, long id) {
+        String sql = PersonajeEntry.DELETE_PERSONAJES_DE_JUEGO;
+        SQLiteStatement deleteStmt = db.compileStatement(sql);
+        deleteStmt.clearBindings();
+        deleteStmt.bindString(1, "" + id);
+        deleteStmt.executeUpdateDelete();
+    }
+
 // ------------------------ "Objetos" table methods ----------------//
 
     public long agregarObjeto(Objeto objeto, long juego_id) {
@@ -300,8 +324,16 @@ public class DatabaseManager {
                 " ORDER BY " + ObjetoEntry.COLUMN_NIVEL);
     }
 
+    private void eliminarObjetosDe(SQLiteDatabase db, long id) {
+        String sql = ObjetoEntry.DELETE_OBJETOS_DE_JUEGO;
+        SQLiteStatement deleteStmt = db.compileStatement(sql);
+        deleteStmt.clearBindings();
+        deleteStmt.bindString(1, "" + id);
+        deleteStmt.executeUpdateDelete();
+    }
 
-    // ------------------------ "Misions" table methods ----------------//
+
+    // ------------------------ "Misiones" table methods ----------------//
 
     public long agregarMision(Mision mision, long juego_id) {
         SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
@@ -358,6 +390,14 @@ public class DatabaseManager {
     public List<Mision> getAllMisionesFromJuego(long id) {
         return this.getAllMisiones("SELECT  * FROM " + MisionEntry.TABLE_NAME +
                 " WHERE " + MisionEntry.COLUMN_KEY_JUEGO_ID + " = " + id);
+    }
+
+    private void eliminarMisionesDe(SQLiteDatabase db, long id) {
+        String sql = MisionEntry.DELETE_MISIONES_DE_JUEGO;
+        SQLiteStatement deleteStmt = db.compileStatement(sql);
+        deleteStmt.clearBindings();
+        deleteStmt.bindString(1, "" + id);
+        deleteStmt.executeUpdateDelete();
     }
 
     //    ------------------------------- PA POPULAR --------------------------

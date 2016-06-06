@@ -107,6 +107,10 @@
     <string name="action_descartar_cambios">Descartar cambios</string>
     <string name="title_activity_juego_agregar">Agregar Juego</string>
     <string name="action_descartar">Descartar</string>
+    <string name="action_eliminar_juego">Eliminar Juego</string>
+    <string name="mensaje_eliminar_juego">¿Esta seguro que desea eliminar ese juego con todos sus personajes, misiones y objetos?</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="cancelar">Cancelar</string>
 
     <string-array name="estados_juego">
         <item>No iniciado</item>

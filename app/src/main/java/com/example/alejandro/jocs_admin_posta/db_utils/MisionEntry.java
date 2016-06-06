@@ -22,4 +22,8 @@ public class MisionEntry implements BaseColumns {
             COLUMN_DESCRIPCION + " TEXT," +
             COLUMN_PUNTUACION + " TEXT," +
             COLUMN_KEY_JUEGO_ID + " INTEGER)";
+
+    public static final String DELETE_MISIONES_DE_JUEGO = "DELETE FROM " + TABLE_NAME +
+            " WHERE " + COLUMN_KEY_JUEGO_ID + " = ?";
+    ;
 }

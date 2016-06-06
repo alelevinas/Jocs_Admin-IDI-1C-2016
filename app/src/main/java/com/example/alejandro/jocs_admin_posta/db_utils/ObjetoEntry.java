@@ -20,4 +20,8 @@ public class ObjetoEntry implements BaseColumns {
             //            TODO: QUE NIVEL SEA INT PORQUE SINO SE ORDENA MAL (1 -> 10 -> 2)
             COLUMN_NIVEL + " TEXT," +
             COLUMN_KEY_JUEGO_ID + " INTEGER)";
+
+    public static final String DELETE_OBJETOS_DE_JUEGO = "DELETE FROM " + TABLE_NAME +
+            " WHERE " + COLUMN_KEY_JUEGO_ID + " = ?";
+    ;
 }

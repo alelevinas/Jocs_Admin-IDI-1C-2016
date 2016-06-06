@@ -9,10 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.alejandro.jocs_admin_posta.db_utils.DatabaseManager;
-import com.example.alejandro.jocs_admin_posta.model.Juego;
 import com.example.alejandro.jocs_admin_posta.model.Personaje;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -33,10 +31,10 @@ public class JuegoPersonajesFragment extends Fragment {
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static JuegoPersonajesFragment newInstance(Juego juego) {
+    public static JuegoPersonajesFragment newInstance(long juego_id) {
         JuegoPersonajesFragment fragment = new JuegoPersonajesFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_JUEGO, (Serializable) juego);
+        args.putLong(ARG_JUEGO, juego_id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,7 +48,7 @@ public class JuegoPersonajesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_juego_personajes, container, false);
-        Juego juego = (Juego) getArguments().getSerializable(ARG_JUEGO);
+        long juego_id = (long) getArguments().getLong(ARG_JUEGO);
 
 
         /*CARDS*/
@@ -63,7 +61,7 @@ public class JuegoPersonajesFragment extends Fragment {
 //        DatabaseManager.initializeInstance(new JocsAdminDbHelper(v.getContext()));
 
 //        List<Personaje> personajes = DatabaseManager.getInstance().getAllPersonajes();
-        List<Personaje> personajes = DatabaseManager.getInstance().getAllPersonajesFromJuego(juego.getId());
+        List<Personaje> personajes = DatabaseManager.getInstance().getAllPersonajesFromJuego(juego_id);
         PersonajeAdapter pa = new PersonajeAdapter(personajes);
         recList.setAdapter(pa);
 

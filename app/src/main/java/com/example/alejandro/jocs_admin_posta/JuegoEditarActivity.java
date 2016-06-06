@@ -74,12 +74,13 @@ public class JuegoEditarActivity extends AppCompatActivity implements AdapterVie
                     bitmapdata = juego.getLaFoto();
 
 
-                Log.e("APRETE EL PUTO UPDATEEE", "APRETE EL PUTO UPDATEEE " + " APRETE EL PUTO UPDATEEE");
+                Log.e("JUEGO EDITAR ACTIVITY", "APRETE EL UPDATEEE " + " APRETE EL UPDATEEE");
                 DatabaseManager.getInstance().updateJuego(juego_id, mTitulo.getText().toString(), mPlataforma.getText().toString(),
                         mEstudio.getText().toString(), mAnoPublicacion.getText().toString(), estado_seleccionado, bitmapdata);
+                onBackPressed();
             }
         });
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        /*toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 byte[] bitmapdata;
@@ -91,11 +92,14 @@ public class JuegoEditarActivity extends AppCompatActivity implements AdapterVie
                 } else
                     bitmapdata = juego.getLaFoto();
 
-                Log.e("APRETE EL PUTO UPDATEEE", "APRETE EL PUTO UPDATEEE " + " APRETE EL PUTO UPDATEEE");
+                Log.e("JUEGO EDITAR ACTIVITY", "APRETE EL UPDATEEE " + " APRETE EL UPDATEEE");
                 DatabaseManager.getInstance().updateJuego(juego_id, mTitulo.getText().toString(), mPlataforma.getText().toString(),
                         mEstudio.getText().toString(), mAnoPublicacion.getText().toString(), estado_seleccionado, bitmapdata);
+                onBackPressed();
+                onBackPressed();
+                finish();
             }
-        });
+        });*/
         setSupportActionBar(toolbar);
 
 
@@ -166,8 +170,8 @@ public class JuegoEditarActivity extends AppCompatActivity implements AdapterVie
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_descartar_cambios) {
+            onBackPressed();
         }
 
         return super.onOptionsItemSelected(item);

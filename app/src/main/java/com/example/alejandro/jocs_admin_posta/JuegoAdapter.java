@@ -86,7 +86,7 @@ public class JuegoAdapter extends RecyclerView.Adapter<JuegoAdapter.JuegoViewHol
 //                    EditText editText = (EditText) findViewById(R.id.edit_message);
 //                    String message = editText.getText().toString();
                     Bundle b = new Bundle();
-                    b.putSerializable(EXTRA_JUEGO, currentJuego);
+                    b.putLong(EXTRA_JUEGO, currentJuego.getId());
                     intent.putExtras(b);
 //                    intent.putExtra(EXTRA_MESSAGE, message);
                     v.getContext().startActivity(intent);

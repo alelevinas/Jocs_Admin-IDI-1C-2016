@@ -38,4 +38,6 @@ public class JuegoEntry implements BaseColumns {
             COLUMN_FOTO
             + ") " + "VALUES(?,?,?,?,?,?,?)";
 
+    public static final String DELETE_JUEGO = "DELETE FROM " + TABLE_NAME +
+            " WHERE " + COLUMN_KEY_JUEGO_ID + " = ?";
 }

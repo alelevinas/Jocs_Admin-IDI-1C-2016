@@ -1,23 +1,25 @@
 package com.example.alejandro.jocs_admin_posta;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.alejandro.jocs_admin_posta.db_utils.DatabaseManager;
 import com.example.alejandro.jocs_admin_posta.model.Juego;
-
-import java.io.Serializable;
 
 public class JuegoInfoActivity extends AppCompatActivity {
 
     Juego j;
+    long id_juego;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -40,10 +42,10 @@ public class JuegoInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_juego_info);
 
         Bundle b = getIntent().getExtras();
-        Serializable s = b.getSerializable(JuegoAdapter.JuegoViewHolder.EXTRA_JUEGO);
-        j = (Juego) s;
+        id_juego = b.getLong(JuegoAdapter.JuegoViewHolder.EXTRA_JUEGO);
+        j = DatabaseManager.getInstance().getJuego(id_juego);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_juego_info);
         toolbar.setTitle(j.getNombre());
         setSupportActionBar(toolbar);
 
@@ -77,11 +79,70 @@ public class JuegoInfoActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_eliminar_juego) {
+            //Esta seguro?
+            //eliminar de la base de datos.
+            dialogSeguro();
+//            onBackPressed();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void dialogSeguro() {
+        /*final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_box_eliminar_juego);
+        dialog.setTitle("Alert Dialog View");
+        Button btnExit = (Button) dialog.findViewById(R.id.btnCancelar);
+        btnExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.btnAceptar)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+        dialog.findViewById(R.id.btnCancelar)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+        // show dialog on screen
+        dialog.show();*/
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.action_eliminar_juego)
+                .setMessage(R.string.mensaje_eliminar_juego)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        DatabaseManager.getInstance().eliminarJuego(j.getId());
+                        onBackPressed();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        Log.e("JUEGO INFO ACTIVITY", "ON RESUMEEEE");
+
+//        j = DatabaseManager.getInstance().getJuego(j.getId());
     }
 
     /**
@@ -100,18 +161,18 @@ public class JuegoInfoActivity extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    return JuegoInfoFragment.newInstance(j);
+                    return JuegoInfoFragment.newInstance(id_juego);
                 case 1:
                     //Personajes
-                    return JuegoPersonajesFragment.newInstance(j);
+                    return JuegoPersonajesFragment.newInstance(id_juego);
                 case 2:
                     //Objetos
-                    return JuegoObjetosFragment.newInstance(j);
+                    return JuegoObjetosFragment.newInstance(id_juego);
                 case 3:
                     //Misiones
-                    return JuegoMisionesFragment.newInstance(j);
+                    return JuegoMisionesFragment.newInstance(id_juego);
                 default:
-                    return JuegoInfoFragment.newInstance(j);
+                    return JuegoInfoFragment.newInstance(id_juego);
             }
         }
 
