@@ -105,6 +105,8 @@
     <string name="estado">Estado:</string>
     <string name="title_activity_juego_editar">JuegoEditarActivity</string>
     <string name="action_descartar_cambios">Descartar cambios</string>
+    <string name="title_activity_juego_agregar">Agregar Juego</string>
+    <string name="action_descartar">Descartar</string>
 
     <string-array name="estados_juego">
         <item>No iniciado</item>

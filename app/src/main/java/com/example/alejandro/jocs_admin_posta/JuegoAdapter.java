@@ -46,6 +46,8 @@ public class JuegoAdapter extends RecyclerView.Adapter<JuegoAdapter.JuegoViewHol
         juegoViewHolder.vAno_publicacion.setText(ci.getAno_publicacion());
         juegoViewHolder.vCurso.setText(ci.getCurso());
         juegoViewHolder.vFotoId.setImageResource(ci.getFotoId());
+//        TODO: ARREGLAR ESTO
+//        juegoViewHolder.vFotoId.setImageBitmap(BitmapFactory.decodeByteArray(ci.getLaFoto(),0,ci.getLaFoto().length));
 
         juegoViewHolder.currentJuego = ci;
     }

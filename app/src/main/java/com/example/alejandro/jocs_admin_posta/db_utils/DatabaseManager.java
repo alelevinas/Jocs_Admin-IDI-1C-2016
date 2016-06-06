@@ -94,6 +94,8 @@ public class DatabaseManager {
 //        long juego_id = db.insert(JuegoEntry.TABLE_NAME, null, values);
 
         juego.setId(juego_id);
+
+        Log.e("DATABASE MANAGER", "JUEGO CON AGREGADO CON id: " + juego_id);
         return juego_id;
     }
 
@@ -160,7 +162,7 @@ public class DatabaseManager {
 
     public void updateJuego(long juego_id, String mTituloText, String mPlataformaText,
                             String mEstudioText, String mAnoPublicacionText, String mEstadoText,
-                            Bitmap mImagen) {
+                            byte[] mImagen) {
         SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -170,13 +172,7 @@ public class DatabaseManager {
         values.put(JuegoEntry.COLUMN_ANO_PUBLICACION, mAnoPublicacionText);
         values.put(JuegoEntry.COLUMN_CURSO, mEstadoText);
 //        values.put(JuegoEntry.COLUMN_FOTO_ID, m);
-
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        if (mImagen.compress(Bitmap.CompressFormat.PNG, 100, stream))
-            Log.e("BITMAPPPP", "NO SE PUDO SACAR LOS BITS!!!!");
-        byte[] bitmapdata = stream.toByteArray();
-
-        values.put(JuegoEntry.COLUMN_FOTO, bitmapdata);
+        values.put(JuegoEntry.COLUMN_FOTO, mImagen);
 
 
         db.update(JuegoEntry.TABLE_NAME, values, JuegoEntry.COLUMN_KEY_JUEGO_ID + " = " + Long.toString(juego_id), null);
@@ -383,9 +379,9 @@ public class DatabaseManager {
         zelda.setEstudio("Nintendo");
         zelda.setAno_publicacion("1998");
         zelda.setCurso("No Iniciado");
-        zelda.setFotoId(R.mipmap.the_legend_of_zelda_ocarina_of_time);
+        zelda.setFotoId(R.drawable.zelda_the_legend_of_zelda_ocarina_of_time);
 
-        Bitmap bMap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.the_legend_of_zelda_ocarina_of_time);
+        Bitmap bMap = BitmapFactory.decodeResource(context.getResources(), R.drawable.zelda_the_legend_of_zelda_ocarina_of_time);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bMap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] bitmapdata = stream.toByteArray();
@@ -394,11 +390,11 @@ public class DatabaseManager {
 
         long id = this.agregarJuego(db, zelda);
 
-        this.agregarPersonaje(db, new Personaje("Link", "Hyliano", "1", R.mipmap.zelda_link), id);
-        this.agregarPersonaje(db, new Personaje("Princesa Zelda", "Hyliano", "1", R.mipmap.zelda_zelda), id);
-        this.agregarPersonaje(db, new Personaje("Ganondorf", "Gerudo", "1", R.mipmap.zelda_ganondorf), id);
-        this.agregarPersonaje(db, new Personaje("Nadi", "Hada", "1", R.mipmap.zelda_nadi), id);
-        this.agregarPersonaje(db, new Personaje("Sheik", "Sheikah", "1", R.mipmap.zelda_sheik), id);
+        this.agregarPersonaje(db, new Personaje("Link", "Hyliano", "1", R.drawable.zelda_link_chico), id);
+        this.agregarPersonaje(db, new Personaje("Princesa Zelda", "Hyliano", "1", R.drawable.zelda_zelda_chico), id);
+        this.agregarPersonaje(db, new Personaje("Ganondorf", "Gerudo", "1", R.drawable.zelda_ganondorf_chico), id);
+        this.agregarPersonaje(db, new Personaje("Nadi", "Hada", "1", R.drawable.zelda_nadi), id);
+        this.agregarPersonaje(db, new Personaje("Sheik", "Sheikah", "1", R.drawable.zelda_sheik_chico), id);
 
         this.agregarObjeto(db, new Objeto("Kokiri Sword", "1"), id);
         this.agregarObjeto(db, new Objeto("Master Sword", "1"), id);
@@ -428,9 +424,9 @@ public class DatabaseManager {
         SuperMario.setEstudio("Nintendo");
         SuperMario.setAno_publicacion("1996");
         SuperMario.setCurso("Iniciado");
-        SuperMario.setFotoId(R.mipmap.super_mario_64);
+        SuperMario.setFotoId(R.drawable.mario_super_mario_64);
 
-        Bitmap bMap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.super_mario_64);
+        Bitmap bMap = BitmapFactory.decodeResource(context.getResources(), R.drawable.mario_super_mario_64);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bMap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] bitmapdata = stream.toByteArray();
@@ -438,10 +434,10 @@ public class DatabaseManager {
 
         long id = this.agregarJuego(db, SuperMario);
 
-        this.agregarPersonaje(db, new Personaje("Mario", "Plomero", "6", R.mipmap.mario_mario), id);
-        this.agregarPersonaje(db, new Personaje("Luigi", "Plomero", "5", R.mipmap.mario_luigi), id);
-        this.agregarPersonaje(db, new Personaje("Peach", "Princesa", "1", R.mipmap.mario_peach), id);
-        this.agregarPersonaje(db, new Personaje("Toad", "Hongo", "1", R.mipmap.mario_toad), id);
+        this.agregarPersonaje(db, new Personaje("Mario", "Plomero", "6", R.drawable.mario_mario), id);
+        this.agregarPersonaje(db, new Personaje("Luigi", "Plomero", "5", R.drawable.mario_luigi_chico), id);
+        this.agregarPersonaje(db, new Personaje("Peach", "Princesa", "1", R.drawable.mario_peach), id);
+        this.agregarPersonaje(db, new Personaje("mario_toad", "Hongo", "1", R.drawable.mario_toad_chico), id);
 
         this.agregarObjeto(db, new Objeto("Hongo Rojo", "2"), id);
         this.agregarObjeto(db, new Objeto("Hongo Verde", "1"), id);
@@ -472,14 +468,16 @@ public class DatabaseManager {
             juego.setEstudio("ESTUDIO_" + i);
             juego.setAno_publicacion("2016");
             juego.setCurso("En curso");
-            juego.setFotoId(R.drawable.gta_v);
+            juego.setFotoId(R.drawable.ic_juego);
 
-            Bitmap bMap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.gtav);
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            if (bMap.compress(Bitmap.CompressFormat.PNG, 50, stream))
-                Log.e("BITMAPPPP", "NO SE PUDO SACAR LOS BITS!!!!");
-            byte[] bitmapdata = stream.toByteArray();
-            juego.setLaFoto(bitmapdata);
+//            Bitmap bMap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_juego);
+//            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//            if (bMap.compress(Bitmap.CompressFormat.PNG, 50, stream))
+//                Log.e("BITMAPPPP", "NO SE PUDO SACAR LOS BITS!!!!");
+//            byte[] bitmapdata = stream.toByteArray();
+//            juego.setLaFoto(bitmapdata);
+
+            juego.setLaFoto(new byte[]{0, 1, 0});
 
             l.add(this.agregarJuego(db, juego));
         }

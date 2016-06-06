@@ -1,5 +1,7 @@
 package com.example.alejandro.jocs_admin_posta;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -24,6 +26,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    RecyclerView recList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,11 +46,9 @@ public class MainActivity extends AppCompatActivity
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
-//                Context context = view.getContext();
-//                Intent intent = new Intent(context, JuegoAgregarActivity.class);
-//                intent.putExtra(JuegoAgregarActivityFragment.ARG_ITEM_ID, juego.getId());
-//
-//                context.startActivity(intent);
+                Context context = view.getContext();
+                Intent intent = new Intent(context, JuegoAgregarActivity.class);
+                context.startActivity(intent);
             }
         });
 
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity
 
 
         /*CARDS*/
-        RecyclerView recList = (RecyclerView) findViewById(R.id.juegos_cards);
+        recList = (RecyclerView) findViewById(R.id.juegos_cards);
         recList.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -88,6 +90,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+
     }
 
     @Override
@@ -137,5 +140,13 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        recList.removeAllViewsInLayout();
 
+        List<Juego> juegos = DatabaseManager.getInstance().getAllJuegos();
+        JuegoAdapter ca = new JuegoAdapter(juegos);
+        recList.setAdapter(ca);
+    }
 }
